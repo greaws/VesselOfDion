@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 3a8b5090bf1d70b4582bf79071171358
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - progressText: {fileID: 6147811991009268207, guid: 006c13e5d4299a0419e48e6d45b337d4, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

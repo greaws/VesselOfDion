@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b2ec94088e46ca4e9f8182495c9b4af, type: 3}
+  m_Name: Opener
+  m_EditorClassIdentifier: 
+  dialogue:
+  - "Dr\xFCcke [E], um den Dialog fortzuf\xFChren."
+  - "23 Jahre habe ich gesucht, 23 Jahre voller Ausfl\xFCge zu den verstecktesten
+    Ecken von Griechenland. Am heutigen Tage,"
+  - getrieben von neuen Techniken der jungen Industrialisierung, entdeckte ich ein
+    riesiges Ruinensystem voller antiker Relikte.
+  - "In wenigen Minuten betrete ich den einbruchsgef\xE4hrdeten Keller eines, wie
+    es mir erscheint, mythischen Tempels."
