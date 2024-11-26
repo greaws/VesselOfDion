@@ -7,15 +7,15 @@ public class DialogueUI : MonoBehaviour
 {
     [SerializeField] private GameObject dialogueBox; //! The dialogue box UI
     [SerializeField] private TMP_Text textLabel; //! The text label for dialogue
-
-    public bool IsOpen { get; private set; } //! Tracks if the dialogue box is currently open
+    public bool IsOpen = false; //! Tracks if the dialogue box is currently open
 
     private TypeWriter typeWriter;
 
     private void Start()
     {
         typeWriter = GetComponent<TypeWriter>();
-        CloseDialogueBox();
+        dialogueBox.SetActive(false);
+        textLabel.text = string.Empty;
     }
 
     void Update()
@@ -26,12 +26,12 @@ public class DialogueUI : MonoBehaviour
             CloseDialogueBox();
         }
     }
-        public void ShowDialogue(DialogueObject dialogueObject)
+    public void ShowDialogue(DialogueObject dialogueObject)
     {
         IsOpen = true;
         print("open dialogue");
-        PauseGame(); // Pause the game globally
         dialogueBox.SetActive(true);
+        Time.timeScale = 0f; // Pause the entire game
         StartCoroutine(StepThroughDialogue(dialogueObject));
     }
 
@@ -69,11 +69,6 @@ public class DialogueUI : MonoBehaviour
         ResumeGame(); // Resume the game globally
         dialogueBox.SetActive(false);
         textLabel.text = string.Empty;
-    }
-
-    private void PauseGame()
-    {
-        Time.timeScale = 0f; // Pause the entire game
     }
 
     private void ResumeGame()

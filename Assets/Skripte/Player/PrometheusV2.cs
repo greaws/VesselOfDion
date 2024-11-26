@@ -24,16 +24,16 @@ public class HorizontalMovementPlayer : Player
     void Start()
     {
         // Debug-Log zur Überprüfung, ob das Skript aktiviert ist
-        Debug.Log("HorizontalMovementPlayer gestartet.");
+        //Debug.Log("HorizontalMovementPlayer gestartet.");
     }
 
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
-        Debug.Log($"Horizontal Input: {horizontal}"); //! Ausgabe des horizontalen Inputs
+        //Debug.Log($"Horizontal Input: {horizontal}"); //! Ausgabe des horizontalen Inputs
 
         isGrounded = IsGrounded();
-        Debug.Log($"IsGrounded: {isGrounded}"); //! Überprüfung, ob der Spieler auf dem Boden ist
+        //Debug.Log($"IsGrounded: {isGrounded}"); //! Überprüfung, ob der Spieler auf dem Boden ist
 
         Flip();
     }
@@ -47,7 +47,7 @@ public class HorizontalMovementPlayer : Player
         }
 
         // Debug-Log zur Überprüfung der Bewegung
-        Debug.Log($"Bewege den Spieler: Geschwindigkeit = {horizontal * speed}");
+        //Debug.Log($"Bewege den Spieler: Geschwindigkeit = {horizontal * speed}");
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
@@ -55,13 +55,13 @@ public class HorizontalMovementPlayer : Player
     {
         if (groundCheck == null)
         {
-            Debug.LogError("GroundCheck ist nicht zugewiesen!");
+            //Debug.LogError("GroundCheck ist nicht zugewiesen!");
             return false;
         }
 
         // Überprüfen, ob der Spieler den Boden berührt
         bool grounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-        Debug.Log($"Grounded Check: {grounded}");
+        //Debug.Log($"Grounded Check: {grounded}");
         return grounded;
     }
 
@@ -74,7 +74,7 @@ public class HorizontalMovementPlayer : Player
             localScale.x *= -1f;
             transform.localScale = localScale;
 
-            Debug.Log("Spieler gedreht.");
+            //Debug.Log("Spieler gedreht.");
         }
     }
 

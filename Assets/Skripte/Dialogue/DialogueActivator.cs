@@ -9,10 +9,8 @@ public class DialogueActivator : MonoBehaviour, IInteractable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        print("collider enter" + other);
         if (other.CompareTag("Player"))
         {
-            print(other.GetComponent<Player>());
             HandlePlayerEnter(other.GetComponent<Player>());
         }
     }
