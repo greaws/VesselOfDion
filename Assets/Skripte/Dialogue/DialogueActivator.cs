@@ -35,8 +35,13 @@ public class DialogueActivator : MonoBehaviour, IInteractable
     {
         if (autoTrigger && !hasTriggered)
         {
-            hasTriggered = true; // Ensure this dialogue only triggers once per entry
+            hasTriggered = true; // Ensure this dialogue only triggers once
             player.DialogueUI.ShowDialogue(dialogueObject);
+
+            {
+                // Uncomment the following line if you want it to reset after completion
+                // hasTriggered = false;
+            };
         }
         else
         {
@@ -46,11 +51,7 @@ public class DialogueActivator : MonoBehaviour, IInteractable
 
     public void HandlePlayerExit(Player player)
     {
-        if (autoTrigger)
-        {
-            hasTriggered = false; // Reset auto-trigger when the player leaves
-        }
-        else if (player.Interactable is DialogueActivator dialogueActivator && dialogueActivator == this)
+        if (!autoTrigger && player.Interactable is DialogueActivator dialogueActivator && dialogueActivator == this)
         {
             player.Interactable = null;
         }
