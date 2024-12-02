@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     public IInteractable Interactable { get; set; }
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }

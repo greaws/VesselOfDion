@@ -13,12 +13,22 @@ public class Forscher : Player
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 
+    private Animator animator;
+
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     void Update()
     {
         if (DialogueUI.IsOpen) return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
+
+        animator.SetBool("isWalking", horizontal != 0);
+
         if (Input.GetKeyDown("space"))
         {
             print("space is pressed");            

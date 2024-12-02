@@ -1,4 +1,7 @@
+using Cinemachine;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PlayerSwitcher : MonoBehaviour
 {
@@ -8,7 +11,11 @@ public class PlayerSwitcher : MonoBehaviour
     [SerializeField] private GameObject jumpingPlayer; //! Second player
     [SerializeField] private GameObject thirdPlayer; //! Third player
     [SerializeField] private GameObject forthPlayer; //! Fourth player
-    [SerializeField] private CameraFollow cameraFollow; //! Reference to CameraFollow script
+    public CinemachineVirtualCamera vaseCam;
+    public CinemachineImpulseSource impulseSource;
+    public DialogueObject dialogueObject;
+
+    public DialogueUI dialogueUI;
 
     private int currentPlayerIndex = 0; //! Tracks the currently active player
 
@@ -33,15 +40,26 @@ public class PlayerSwitcher : MonoBehaviour
         jumpingPlayer.SetActive(false);
         thirdPlayer.SetActive(false);
         forthPlayer.SetActive(false);
-
-        cameraFollow.SetTarget(runningPlayer.transform); //! Set camera to follow the first player
+        vaseCam.enabled = false;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        //cameraFollow.SetTarget(runningPlayer.transform); //! Set camera to follow the first player
     }
+
+    public PlayableDirector transition1;
 
     public void SwitchToSecondPlayer()
     {
         currentPlayerIndex = 1;
         UpdatePlayerState();
         Debug.Log("Switched to second player.");
+        transition1.Play();
+
+    }
+
+    public void SwitcheComplete()
+    {
+        impulseSource.GenerateImpulseWithForce(1);
+        dialogueUI.ShowDialogue(dialogueObject);
     }
 
     public void SwitchToThirdPlayer()
@@ -61,7 +79,7 @@ public class PlayerSwitcher : MonoBehaviour
     private void UpdatePlayerState()
     {
         // Deactivate all players
-        runningPlayer.SetActive(false);
+        //runningPlayer.SetActive(false);
         jumpingPlayer.SetActive(false);
         thirdPlayer.SetActive(false);
         forthPlayer.SetActive(false);
@@ -69,23 +87,20 @@ public class PlayerSwitcher : MonoBehaviour
         // Activate the current player and update the camera target
         if (currentPlayerIndex == 0)
         {
-            runningPlayer.SetActive(true);
-            cameraFollow.SetTarget(runningPlayer.transform);
+            runningPlayer.SetActive(true);           
         }
         else if (currentPlayerIndex == 1)
         {
             jumpingPlayer.SetActive(true);
-            cameraFollow.SetTarget(jumpingPlayer.transform);
+            vaseCam.enabled = true;
         }
         else if (currentPlayerIndex == 2)
         {
             thirdPlayer.SetActive(true);
-            cameraFollow.SetTarget(thirdPlayer.transform);
         }
         else if (currentPlayerIndex == 3)
         {
             forthPlayer.SetActive(true);
-            cameraFollow.SetTarget(forthPlayer.transform);
         }
     }
 }

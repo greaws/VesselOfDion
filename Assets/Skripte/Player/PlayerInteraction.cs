@@ -9,7 +9,7 @@ public class InteractionScript : MonoBehaviour
     [SerializeField] private GameObject[] interactableObjectsSet2 = new GameObject[3];
     [SerializeField] private GameObject[] interactableObjectsSet3 = new GameObject[3];
     [SerializeField] private float interactionRange = 3f;
-    [SerializeField] private Animator animator;
+    private Animator animator;
     [SerializeField] private GameObject vesselObject1;
     [SerializeField] private GameObject vesselObject2;
     [SerializeField] private GameObject vesselObject3;
@@ -20,6 +20,12 @@ public class InteractionScript : MonoBehaviour
     private bool allObjectsCollectedSet1 = false;
     private bool allObjectsCollectedSet2 = false;
     private bool allObjectsCollectedSet3 = false;
+
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -78,7 +84,7 @@ public class InteractionScript : MonoBehaviour
 
     private void TriggerInteraction(GameObject obj, int setNumber)
     {
-        animator.SetTrigger("Inspect");
+        animator.SetTrigger("inspect");
         obj.SetActive(false);
 
         if (setNumber == 1)

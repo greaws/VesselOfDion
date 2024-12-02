@@ -31,7 +31,7 @@ public class DialogueUI : MonoBehaviour
         IsOpen = true;
         print("open dialogue");
         dialogueBox.SetActive(true);
-        Time.timeScale = 0f; // Pause the entire game
+        //Time.timeScale = 0f; // Pause the entire game
         StartCoroutine(StepThroughDialogue(dialogueObject));
     }
 
