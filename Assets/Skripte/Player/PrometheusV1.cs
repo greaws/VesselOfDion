@@ -19,6 +19,7 @@ public class JumpingPlayer : Player
     {
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
+            print("jump");
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
 

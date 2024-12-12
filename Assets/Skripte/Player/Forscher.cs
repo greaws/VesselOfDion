@@ -20,7 +20,6 @@ public class Forscher : Player
     {
         animator = GetComponent<Animator>();
     }
-
     void Update()
     {
         if (DialogueUI.IsOpen) return;
@@ -28,6 +27,7 @@ public class Forscher : Player
         horizontal = Input.GetAxisRaw("Horizontal");
 
         animator.SetBool("isWalking", horizontal != 0);
+        animator.SetBool("grounded", IsGrounded());
 
         if (Input.GetKeyDown("space"))
         {
@@ -37,6 +37,7 @@ public class Forscher : Player
         {
             print("up");
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            animator.SetTrigger("Jump");
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
@@ -44,6 +45,9 @@ public class Forscher : Player
             print("up1");
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f); //wenn lange gedrückt, höher springen
         }
+
+        animator.SetBool("falling", rb.velocity.y < 0f && !IsGrounded());
+
 
         Flip();
 

@@ -120,20 +120,7 @@ public class InteractionScript : MonoBehaviour
 
     private void TriggerVesselInteraction(int vesselNumber)
     {
-        if (vesselNumber == 1)
-        {
-            Debug.Log("Mit Vessel 1 interagiert! Spielerwechsel wird vorbereitet...");
-            PlayerSwitcher.Instance.SwitchToSecondPlayer();
-        }
-        else if (vesselNumber == 2)
-        {
-            Debug.Log("Mit Vessel 2 interagiert! Spielerwechsel wird vorbereitet...");
-            PlayerSwitcher.Instance.SwitchToThirdPlayer();
-        }
-        else if (vesselNumber == 3)
-        {
-            Debug.Log("Mit Vessel 3 interagiert! Spielerwechsel wird vorbereitet...");
-            PlayerSwitcher.Instance.SwitchToForthPlayer();
-        }
+        Debug.Log("Mit Vessel " + vesselNumber + " interagiert! Spielerwechsel wird vorbereitet...");
+        PlayerSwitcher.Instance.SwitchPlayer(vesselNumber);
     }
 }
