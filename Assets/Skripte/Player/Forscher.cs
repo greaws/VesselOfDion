@@ -8,13 +8,13 @@ public class Forscher : Player
     [SerializeField] private float speed = 10; //! Geschwindigkeit des Spielers, im Inspector anpassbar
     [SerializeField] private float jumpingPower = 10f;
     private bool isFacingRight = true;
+    public ParticleSystem dust;
     
-    
-    [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 
     private Animator animator;
 
+    public bool isGrounded;
 
     private void Start()
     {
@@ -22,18 +22,22 @@ public class Forscher : Player
     }
     void Update()
     {
+        bool grounded = IsGrounded();
+        if (isGrounded != grounded && grounded == true)
+        {
+            dust.Play();
+        }
+
+        isGrounded = grounded;
+
         if (DialogueUI.IsOpen) return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
         animator.SetBool("isWalking", horizontal != 0);
-        animator.SetBool("grounded", IsGrounded());
+        animator.SetBool("grounded", isGrounded);
 
-        if (Input.GetKeyDown("space"))
-        {
-            print("space is pressed");            
-        }
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             print("up");
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
@@ -46,7 +50,7 @@ public class Forscher : Player
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f); //wenn lange gedrückt, höher springen
         }
 
-        animator.SetBool("falling", rb.velocity.y < 0f && !IsGrounded());
+        animator.SetBool("falling", rb.velocity.y < 0f && !isGrounded);
 
 
         Flip();
@@ -69,7 +73,7 @@ public class Forscher : Player
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        return Physics2D.OverlapCircle(transform.position, 0.2f, groundLayer);
     }
 
     private void Flip()
