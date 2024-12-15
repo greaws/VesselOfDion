@@ -6,10 +6,11 @@ public class JumpingPlayer : Player
 {
     [SerializeField] private float jumpingPower = 10f; //! Sprungkraft des Spielers
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     public DialogueUI DialogueUI { get; private set; }
     public IInteractable Interactable { get; set; }
+
+    public bool isGrounded;
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class JumpingPlayer : Player
     }
     void Update()
     {
+        isGrounded = IsGrounded();
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             print("jump");
@@ -31,6 +33,6 @@ public class JumpingPlayer : Player
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        return Physics2D.OverlapCircle(transform.position, 0.2f, groundLayer);
     }
 }
