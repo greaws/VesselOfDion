@@ -17,11 +17,18 @@ public class Forscher : Player
     private Animator animator;
 
     public bool isGrounded;
+    public Controls controls;
+    public float drag;
 
     private void Start()
     {
         controls = new Controls();
+        controls.Enable(); // Enable the controls
+        print(controls);
         animator = GetComponent<Animator>();
+        controls.CharacterControls.Jump.started += context => {
+            
+        };
         controls.CharacterControls.Move.started += OnMove;
         controls.CharacterControls.Move.performed += OnMove;
         controls.CharacterControls.Move.canceled += context => {
@@ -31,14 +38,16 @@ public class Forscher : Player
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        print(context);
         float horizontal = context.ReadValue<Vector2>().x;
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        Vector2 direction = new Vector2(horizontal, 0);
 
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f) //wenn das oder das, dann ...
+        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+
+        // Flip the sprite based on movement direction
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
             isFacingRight = !isFacingRight;
-            transform.localScale *= Vector2.left;
+            transform.localScale *= new Vector2(-1, 1);
         }
     }
 
@@ -60,14 +69,12 @@ public class Forscher : Player
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            print("up");
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
             animator.SetTrigger("Jump");
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
         {
-            print("up1");
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f); //wenn lange gedrückt, höher springen
         }
 
@@ -82,7 +89,17 @@ public class Forscher : Player
                 Interactable.Interact(this);
             }
         }
+        if (isGrounded && Mathf.Abs(rb.velocity.x) < 0.1f && rb.velocity.y == 0f)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y); // Prevent sliding down
+        }
+    }
 
+    private void FixedUpdate()
+    {
+        if (isGrounded) {
+            rb.velocity *= drag;
+        }
     }
 
     //private void FixedUpdate()
