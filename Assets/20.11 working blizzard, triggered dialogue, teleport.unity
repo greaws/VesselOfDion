@@ -2107,7 +2107,7 @@ Camera:
   far clip plane: 100
   field of view: 74.6
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -8138,10 +8138,10 @@ MonoBehaviour:
   dialogueUI: {fileID: 94277832}
   jumpingPower: 3
   rb: {fileID: 905959258}
-  groundCheck: {fileID: 1922271036}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isGrounded: 0
 --- !u!212 &905959256
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8274,7 +8274,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.671875, y: 0.609375}
+    oldSize: {x: 2.6875, y: 2.4375}
     newSize: {x: 2.15, y: 1.95}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

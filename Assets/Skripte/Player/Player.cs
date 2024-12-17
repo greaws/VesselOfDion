@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private DialogueUI dialogueUI;
     protected Rigidbody2D rb;
+    public Controls controls;
     public DialogueUI DialogueUI => dialogueUI;
 
     public IInteractable Interactable { get; set; }
@@ -13,6 +15,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        controls = new Controls();
+        print(controls);
     }
 
 }

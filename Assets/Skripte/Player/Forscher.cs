@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Forscher : Player
 {
-    private float horizontal;
     [SerializeField] private float speed = 10; //! Geschwindigkeit des Spielers, im Inspector anpassbar
     [SerializeField] private float jumpingPower = 10f;
     private bool isFacingRight = true;
@@ -18,8 +20,28 @@ public class Forscher : Player
 
     private void Start()
     {
+        controls = new Controls();
         animator = GetComponent<Animator>();
+        controls.CharacterControls.Move.started += OnMove;
+        controls.CharacterControls.Move.performed += OnMove;
+        controls.CharacterControls.Move.canceled += context => {
+            rb.velocity = Vector2.zero;
+        };
     }
+
+    private void OnMove(InputAction.CallbackContext context)
+    {
+        print(context);
+        float horizontal = context.ReadValue<Vector2>().x;
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f) //wenn das oder das, dann ...
+        {
+            isFacingRight = !isFacingRight;
+            transform.localScale *= Vector2.left;
+        }
+    }
+
     void Update()
     {
         bool grounded = IsGrounded();
@@ -32,9 +54,8 @@ public class Forscher : Player
 
         if (DialogueUI.IsOpen) return;
 
-        horizontal = Input.GetAxisRaw("Horizontal");
 
-        animator.SetBool("isWalking", horizontal != 0);
+        animator.SetBool("isWalking", rb.velocity.x != 0);
         animator.SetBool("grounded", isGrounded);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -51,9 +72,7 @@ public class Forscher : Player
         }
 
         animator.SetBool("falling", rb.velocity.y < 0f && !isGrounded);
-
-
-        Flip();
+        
 
         //Dialog
         if (Input.GetKeyDown(KeyCode.E))
@@ -66,24 +85,13 @@ public class Forscher : Player
 
     }
 
-    private void FixedUpdate()
-    {
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-    }
+    //private void FixedUpdate()
+    //{
+    //    rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+    //}
 
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(transform.position, 0.2f, groundLayer);
-    }
-
-    private void Flip()
-    {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f) //wenn das oder das, dann ...
-        {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
     }
 }
