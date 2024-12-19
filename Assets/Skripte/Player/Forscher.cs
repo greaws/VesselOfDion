@@ -7,7 +7,6 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Forscher : Player
 {
-    [SerializeField] private float speed = 10; //! Geschwindigkeit des Spielers, im Inspector anpassbar
     [SerializeField] private float jumpingPower = 10f;
     private bool isFacingRight = true;
     public ParticleSystem dust;
@@ -20,95 +19,134 @@ public class Forscher : Player
     public Controls controls;
     public float drag;
 
-    private void Start()
+
+
+    private Collision coll;
+    [HideInInspector]
+    public Rigidbody2D rb;
+    private AnimationScript anim;
+
+    [Space]
+    [Header("Stats")]
+    public float speed = 10;
+    public float jumpForce = 50;
+
+    [Space]
+    [Header("Booleans")]
+    public bool canMove;
+
+    [Space]
+
+    private bool groundTouch;
+    public int side = 1;
+
+    [Space]
+    [Header("Polish")]
+    public ParticleSystem jumpParticle;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        controls = new Controls();
-        controls.Enable(); // Enable the controls
-        print(controls);
-        animator = GetComponent<Animator>();
-        controls.CharacterControls.Jump.started += context => {
-            
-        };
-        controls.CharacterControls.Move.started += OnMove;
-        controls.CharacterControls.Move.performed += OnMove;
-        controls.CharacterControls.Move.canceled += context => {
-            rb.velocity = Vector2.zero;
-        };
+        //controls = new Controls();
+        //controls.Enable(); // Enable the controls
+        //print(controls);
+        //animator = GetComponent<Animator>();
+        //controls.CharacterControls.Jump.started += context => {
+
+        //};
+        //controls.CharacterControls.Move.started += OnMove;
+        //controls.CharacterControls.Move.performed += OnMove;
+        //controls.CharacterControls.Move.canceled += context => {
+        //    rb.velocity = Vector2.zero;
+        //};
+
+        coll = GetComponent<Collision>();
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponentInChildren<AnimationScript>();
+        rb.gravityScale = 3; // Ensure gravity is enabled
     }
 
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        float horizontal = context.ReadValue<Vector2>().x;
-        Vector2 direction = new Vector2(horizontal, 0);
-
-        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
-
-        // Flip the sprite based on movement direction
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
-        {
-            isFacingRight = !isFacingRight;
-            transform.localScale *= new Vector2(-1, 1);
-        }
-    }
-
+    // Update is called once per frame
     void Update()
     {
-        bool grounded = IsGrounded();
-        if (isGrounded != grounded && grounded == true)
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
+        Vector2 dir = new Vector2(x, y);
+
+        Walk(dir);
+        anim.SetHorizontalMovement(x, y, rb.velocity.y);
+
+        if (coll.onGround)
         {
-            dust.Play();
+            GetComponent<BetterJumping>().enabled = true;
         }
 
-        isGrounded = grounded;
-
-        if (DialogueUI.IsOpen) return;
-
-
-        animator.SetBool("isWalking", rb.velocity.x != 0);
-        animator.SetBool("grounded", isGrounded);
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            animator.SetTrigger("Jump");
+            anim.SetTrigger("Jump");
+
+            if (coll.onGround)
+                Jump(Vector2.up);
         }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if (coll.onGround && !groundTouch)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f); //wenn lange gedrückt, höher springen
+            GroundTouch();
+            groundTouch = true;
         }
 
-        animator.SetBool("falling", rb.velocity.y < 0f && !isGrounded);
-        
-
-        //Dialog
-        if (Input.GetKeyDown(KeyCode.E))
+        if (!coll.onGround && groundTouch)
         {
-            if (Interactable != null)
+            groundTouch = false;
+        }
+
+        if (!canMove)
+            return;
+
+        if (x > 0)
+        {
+            side = 1;
+            anim.Flip(side);
+        }
+        if (x < 0)
+        {
+            side = -1;
+            anim.Flip(side);
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if (coll.onGround)
+                anim.SetTrigger("Attack");
+        }
+    }
+
+    void GroundTouch()
+    {
+        side = anim.sr.flipX ? -1 : 1;
+        //jumpParticle.Play();
+    }
+
+    private void Walk(Vector2 dir)
+    {
+        if (!canMove)
+            return;
+
+        if (coll.onWall && !coll.onGround) // Prevent sticking to walls
+        {
+            if ((dir.x > 0 && coll.onRightWall) || (dir.x < 0 && coll.onLeftWall))
             {
-                Interactable.Interact(this);
+                dir.x = 0; // Prevent moving into the wall
             }
         }
-        if (isGrounded && Mathf.Abs(rb.velocity.x) < 0.1f && rb.velocity.y == 0f)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y); // Prevent sliding down
-        }
+
+        rb.velocity = new Vector2(dir.x * speed, rb.velocity.y);
     }
 
-    private void FixedUpdate()
+    private void Jump(Vector2 dir)
     {
-        if (isGrounded) {
-            rb.velocity *= drag;
-        }
-    }
-
-    //private void FixedUpdate()
-    //{
-    //    rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-    //}
-
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(transform.position, 0.2f, groundLayer);
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.velocity += dir * jumpForce;
+        //jumpParticle.Play();
     }
 }
