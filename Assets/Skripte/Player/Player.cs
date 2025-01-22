@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private DialogueUI dialogueUI;
+    //[SerializeField] private DialogueUI dialogueUI;
     protected Rigidbody2D rb;
-    public DialogueUI DialogueUI => dialogueUI;
+    //public DialogueUI DialogueUI => dialogueUI;
 
     public IInteractable Interactable { get; set; }
 

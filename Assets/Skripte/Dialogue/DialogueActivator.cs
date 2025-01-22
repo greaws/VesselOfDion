@@ -27,7 +27,7 @@ public class DialogueActivator : MonoBehaviour, IInteractable
     {
         if (!autoTrigger) // Manual interaction only if auto-trigger is disabled
         {
-            player.DialogueUI.ShowDialogue(dialogueObject);
+            //player.DialogueUI.ShowDialogue(dialogueObject);
         }
     }
 
@@ -36,7 +36,7 @@ public class DialogueActivator : MonoBehaviour, IInteractable
         if (autoTrigger && !hasTriggered)
         {
             hasTriggered = true; // Ensure this dialogue only triggers once
-            player.DialogueUI.ShowDialogue(dialogueObject);
+            //player.DialogueUI.ShowDialogue(dialogueObject);
 
             {
                 // Uncomment the following line if you want it to reset after completion
