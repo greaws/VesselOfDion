@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Forscher : Player
 {
@@ -18,6 +17,8 @@ public class Forscher : Player
     public bool isGrounded;
     public Controls controls;
     public float drag;
+
+    public GameObject torch;
 
 
 
@@ -43,6 +44,8 @@ public class Forscher : Player
     [Space]
     [Header("Polish")]
     public ParticleSystem jumpParticle;
+
+    public bool hasTorch;
 
     // Start is called before the first frame update
     void Start()
@@ -148,5 +151,12 @@ public class Forscher : Player
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.velocity += dir * jumpForce;
         //jumpParticle.Play();
+    }
+
+    public void SetHasTorch(bool flag)
+    {
+        print("torch");
+        hasTorch = flag;
+        torch.SetActive(flag);
     }
 }

@@ -60,14 +60,14 @@ public class PlayerSwitcher : MonoBehaviour
         vaseCam.enabled = currentPlayerIndex == 1;
 
         Debug.Log("Switched to "+ playerindex + " player.");
-        if (playerindex == 1)
-            transition1.Play();
+
     }
 
     //animation
     public void SwitcheComplete()
     {
-        impulseSource.GenerateImpulseWithForce(1);
+        SwitchPlayer(1);
+        impulseSource.GenerateImpulseWithForce(1);        
         //dialogueUI.ShowDialogue(dialogueObject);
     }
 }
