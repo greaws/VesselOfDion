@@ -20,8 +20,6 @@ public class Forscher : Player
 
     public GameObject torch;
 
-
-
     private Collision coll;
     [HideInInspector]
     public Rigidbody2D rb;
