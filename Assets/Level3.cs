@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Level3 : MonoBehaviour
 {
-    public GameObject bow;
     public ParticleSystem particleSystem;
-    public float minAngle,maxAngle;
+    public float minAngle,maxAngle, cooldown;
+    public SpriteRenderer bow;
+    public Sprite[] bowSprite;
+    float t = 0;
 
-    // Update is called once per frame
+    public GameObject arrow;
+
     void Update()
     {
         // Get the mouse position in world space
@@ -25,9 +28,22 @@ public class Level3 : MonoBehaviour
         // Apply the rotation (object's x-forward points towards the cursor)
         bow.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-        if (Input.GetMouseButtonDown(0)) // 0 is for the left mouse button
+        if (t <= 0)
         {
-            particleSystem.Play();
+            bow.sprite = bowSprite[0];
+            if (Input.GetMouseButtonDown(0)) // 0 is for the left mouse button
+            {
+                particleSystem.Play();
+                bow.sprite = bowSprite[1];
+                t = cooldown;
+                GameObject arrow1 = Instantiate(arrow,transform);
+                arrow1.transform.position = bow.transform.position;
+                arrow1.transform.rotation = bow.transform.rotation;
+            }
+        }
+        else
+        {
+            t -= Time.deltaTime;
         }
     }
 }
