@@ -128,7 +128,7 @@ public class JumpingPlayer : Player
     {
         float sideCheckDistance = boxCollider.size.x * transform.lossyScale.y / 2;
 
-        Vector3 origin = transform.position + Vector3.up * 1/32f;
+        Vector3 origin = transform.position + Vector3.up * 1/2f;
 
         // Check for collision to the right and left
         RaycastHit2D hitRight = Physics2D.Raycast(origin, Vector2.right, sideCheckDistance, groundLayer);

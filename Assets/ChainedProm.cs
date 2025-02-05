@@ -8,6 +8,8 @@ public class ChainedProm : MonoBehaviour
     private Animator animator;
     public int life = 5;
     private CinemachineImpulseSource impulseSource;
+
+    public GameObject vase3;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +22,10 @@ public class ChainedProm : MonoBehaviour
         animator.SetTrigger("Hit");
         life--;
         impulseSource.GenerateImpulse();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(life < 0)
+        {
+            vase3.SetActive(false);
+        }
     }
 }

@@ -48,7 +48,6 @@ public class LevelGoal : MonoBehaviour
         print("Level ertgh");
         timeline.time = 0;
         timeline.Evaluate();
-        timeline.Stop();
-        
+        timeline.Stop();        
     }
 }

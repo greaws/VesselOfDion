@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,15 +14,20 @@ public class EvadingPrometheus : MonoBehaviour
 
     public float rollTime, rollSpeed;
 
+    public GameObject vase2;
+
     public TextMeshPro text;
     public string[] gameOverMessage;
+
+    public GameObject forscher, door2;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        text.enabled = false;
+        //text.enabled = false;
         currentSpeed = speed;
-        rollCooldown = 0;
+        rollCooldown = 0;        
+        Debug.Log("rfs");
     }
     float rollCooldown;
     float currentSpeed;
@@ -58,22 +64,40 @@ public class EvadingPrometheus : MonoBehaviour
         transform.localPosition = Vector3.right * Mathf.Clamp(transform.localPosition.x, -radius, radius);
     }
 
+    private void OnEnable()
+    {
+        //forscher?.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        forscher.SetActive(true);
+        door2.SetActive(false);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         StartCoroutine(hit());
     }
     private int i = 0;
+
+    public Vector2 shakeIntensity;
+
     private IEnumerator hit()
     {
-        i = (i + 1) % (gameOverMessage.Length - 1);
-        text.enabled = true;
+        i = (i + 1) % (gameOverMessage.Length - 1);        
         text.text = gameOverMessage[i];
+        text.gameObject.SetActive(true);
         lives--;
         _canMove = false;
         _animator.SetBool("Struck", true);
         yield return new WaitForSeconds(stun);
         _animator.SetBool("Struck",false);
         _canMove = true;
-        text.enabled = false;
+        text.gameObject.SetActive(false);
+        if (lives < 0)
+        {
+            vase2.SetActive(false);
+        }
     }
 }

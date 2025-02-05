@@ -29,7 +29,15 @@ public class Vase : MonoBehaviour
 
         if (missingPieces == 0)
         {
-            playableDirector.Play();
+            if (playableDirector!=null)
+                playableDirector.Play();
+            else
+            {                
+                level1.SetActive(true);
+                SpriteRenderer.enabled = false;
+                gameObject.SetActive(false);
+            }
+                
         }
     }
 }

@@ -32,7 +32,7 @@ public class Forscher : Player
 
     [Space]
     [Header("Booleans")]
-    public bool canMove;
+    public bool canMove, hasTorch;
 
     [Space]
 
@@ -43,7 +43,8 @@ public class Forscher : Player
     [Header("Polish")]
     public ParticleSystem jumpParticle;
 
-    public bool hasTorch;
+    public GameObject door;
+
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +66,13 @@ public class Forscher : Player
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<AnimationScript>();
         rb.gravityScale = 3; // Ensure gravity is enabled
+        animator = GetComponent<Animator>();
     }
+
+    //private void OnValidate()
+    //{
+    //    SetHasTorch(hasTorch);
+    //}
 
     // Update is called once per frame
     void Update()
@@ -156,5 +163,16 @@ public class Forscher : Player
         print("torch");
         hasTorch = flag;
         torch.SetActive(flag);
+        if (flag)
+        {
+            animator.SetLayerWeight(1, 0);
+            animator.SetLayerWeight(2, 1);
+        }        
+        else
+        {
+            animator.SetLayerWeight(1, 1);
+            animator.SetLayerWeight(2, 0);
+        }
+        door.SetActive(!flag);
     }
 }

@@ -27,7 +27,7 @@ public class Zeus : MonoBehaviour
             targetPosition = new Vector2(-4.5f, prometheus.localPosition.y);        
         else
             targetPosition = new Vector3(0,10);
-        animator.SetBool("Dead", dead);
+        //animator.SetBool("Dead", dead);
         float newY = Mathf.Lerp(transform.localPosition.y, targetPosition.y + 1.5f, Time.deltaTime * smoothing) + Mathf.Sin(Time.time * speed) * amplitude;
         transform.localPosition = new Vector3(Mathf.Lerp(transform.localPosition.x, targetPosition.x, Time.deltaTime * smoothing), newY, 0);
     }

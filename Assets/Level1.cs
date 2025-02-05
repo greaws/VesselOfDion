@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Playables;
 using UnityEngine.Tilemaps;
 
 public class Level1 : MonoBehaviour
@@ -21,8 +23,11 @@ public class Level1 : MonoBehaviour
     public AudioSource audioSource, deathSoundSource;
 
     public float levelLength;
-    public Transform levelbar, goal;
+    public Transform levelbar;
 
+    public PixelPerfectCamera pixelPerfectCamera;
+    public Forscher player;
+    public PlayableDirector timeline;
 
     private void Start()
     {
@@ -32,7 +37,17 @@ public class Level1 : MonoBehaviour
         scrollSpeed = (bpm / 60f) * tilesPerBeat * 2;
         levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
         levelbar.localScale = new Vector3(levelLength, 1, 1);
-        goal.transform.localPosition = Vector3.right * levelLength;
+        
+    }
+
+    private void OnEnable()
+    {
+        pixelPerfectCamera.assetsPPU = 256;
+    }
+
+    private void OnDisable()
+    {
+        pixelPerfectCamera.assetsPPU = 16;
     }
 
     private void OnValidate()
@@ -41,13 +56,46 @@ public class Level1 : MonoBehaviour
         // Return the total level length as an integer
         levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
         levelbar.localScale = new Vector3 (levelLength, 1, 1);
-        goal.transform.localPosition = Vector3.right * levelLength;
         print(audioSource.clip.length);
     }
 
+    private IEnumerator Reverse()
+    {
+        PlayerSwitcher.Instance.SwitchPlayer(0);
+        player.torch.SetActive(true);
+        player.SetHasTorch(true);
+        print("Level rtzhjtuk");
+
+        float dt = (float)timeline.duration;
+        print("Level ihlihl: " + dt);
+        while (dt > 0)
+        {
+            dt -= Time.deltaTime;
+            timeline.time = Mathf.Max(dt, 0);
+            timeline.Evaluate();
+            yield return null;
+        }
+        print("Level ertgh");
+        timeline.time = 0;
+        timeline.Evaluate();
+        timeline.Stop();
+    }
+
+    public bool done = false;
+
     void Update()
     {
-        Tilemap.transform.localPosition += new Vector3(Time.deltaTime * -scrollSpeed, 0);
+
+        if (Tilemap.transform.localPosition.x > -levelLength)
+        {
+            Tilemap.transform.localPosition += new Vector3(Time.deltaTime * -scrollSpeed, 0);
+            print("done");            
+        }
+        else if (!done)
+        {
+            done = true;
+            StartCoroutine(Reverse());
+        }
     }
 
     public void Reset()

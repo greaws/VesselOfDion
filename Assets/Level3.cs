@@ -4,21 +4,46 @@ using UnityEngine;
 
 public class Level3 : MonoBehaviour
 {
-    public ParticleSystem particleSystem;
     public float minAngle,maxAngle, cooldown;
     public SpriteRenderer bow;
     public Sprite[] bowSprite;
     float t = 0;
+    public GameObject forscher;
 
     public GameObject arrow;
+    public Transform crosshair;
+    public Vector2 bgSize;
+
+    public Vector2 cursorOffset;
 
     void Update()
     {
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Renderer rend = hit.transform.GetComponent<Renderer>();
+            MeshCollider meshCollider = hit.collider as MeshCollider;
+            print(rend);
+            if (rend != null && meshCollider != null && rend.material.mainTexture != null)
+            {
+                //Texture2D tex = rend.material.mainTexture as Texture2D;
+                Vector2 pixelUV = hit.textureCoord;
+                //Vector2 correctedUV = (hit.textureCoord + rend.material.mainTextureOffset) * rend.material.mainTextureScale;
+                // Now 'pixelUV' contains the UV coordinates of the hit point on the texture
+                Debug.Log("UV Coordinates: " + pixelUV);
+                crosshair.transform.localPosition = pixelUV * bgSize / 16 - bgSize / 32 + cursorOffset;
+            }
+        }
+
+
         // Get the mouse position in world space
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         // Get the direction to the mouse position (ignore z-axis for 2D)
-        Vector3 direction = mouseWorldPosition - bow.transform.position;
+        Vector3 direction = crosshair.transform.position - bow.transform.position;
         direction.z = 0; // Ensure the direction is only in the 2D plane
 
         // Calculate the angle in degrees
@@ -33,7 +58,6 @@ public class Level3 : MonoBehaviour
             bow.sprite = bowSprite[0];
             if (Input.GetMouseButtonDown(0)) // 0 is for the left mouse button
             {
-                particleSystem.Play();
                 bow.sprite = bowSprite[1];
                 t = cooldown;
                 GameObject arrow1 = Instantiate(arrow,transform);
@@ -45,5 +69,15 @@ public class Level3 : MonoBehaviour
         {
             t -= Time.deltaTime;
         }
+    }
+
+    private void OnEnable()
+    {
+        forscher.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        forscher.SetActive(true);
     }
 }

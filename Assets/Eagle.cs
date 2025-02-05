@@ -16,11 +16,6 @@ public class Eagle : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void OnValidate()
-    {
-        animator.SetBool("Dead", false);
-    }
-
     void Update()
     {
         if (!dead)
