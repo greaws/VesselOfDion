@@ -9,11 +9,12 @@ public class Vase : MonoBehaviour
     public Animator poof;
     public Sprite[] sprites;
     private SpriteRenderer SpriteRenderer;
-    public PlayableDirector playableDirector;
+    private PlayableDirector playableDirector;
     public GameObject level1;
 
     private void Awake()
     {
+        playableDirector = GetComponent<PlayableDirector>();
         missingPieces = sprites.Length-1;
         SpriteRenderer = GetComponent<SpriteRenderer>();
         SpriteRenderer.enabled = true;
@@ -29,15 +30,7 @@ public class Vase : MonoBehaviour
 
         if (missingPieces == 0)
         {
-            if (playableDirector!=null)
-                playableDirector.Play();
-            else
-            {                
-                level1.SetActive(true);
-                SpriteRenderer.enabled = false;
-                gameObject.SetActive(false);
-            }
-                
+            playableDirector.Play();
         }
     }
 }

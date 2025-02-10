@@ -46,7 +46,7 @@ public class PlayerSwitcher : MonoBehaviour
 
     private void OnValidate()
     {
-        SwitchPlayer(currentPlayerIndex);
+        //SwitchPlayer(currentPlayerIndex);
     }
 
     public void SwitchPlayer(int playerindex)
@@ -54,7 +54,7 @@ public class PlayerSwitcher : MonoBehaviour
         currentPlayerIndex = playerindex;
         foreach (var player in players)
         {
-            player.SetActive(false);
+            //player.SetActive(false);
         }
         players[currentPlayerIndex].SetActive(true);
         vaseCam.enabled = currentPlayerIndex == 1;

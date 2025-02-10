@@ -35,7 +35,7 @@ public class Level1 : MonoBehaviour
         prometheus.transform.localPosition = new Vector3(-2, 5);
         audioSource = GetComponent<AudioSource>();
         scrollSpeed = (bpm / 60f) * tilesPerBeat * 2;
-        levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
+        //levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
         levelbar.localScale = new Vector3(levelLength, 1, 1);
         
     }
@@ -54,18 +54,13 @@ public class Level1 : MonoBehaviour
     {
         scrollSpeed = (bpm / 60f) * tilesPerBeat * 2;
         // Return the total level length as an integer
-        levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
+        //levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
         levelbar.localScale = new Vector3 (levelLength, 1, 1);
         print(audioSource.clip.length);
     }
 
     private IEnumerator Reverse()
     {
-        PlayerSwitcher.Instance.SwitchPlayer(0);
-        player.torch.SetActive(true);
-        player.SetHasTorch(true);
-        print("Level rtzhjtuk");
-
         float dt = (float)timeline.duration;
         print("Level ihlihl: " + dt);
         while (dt > 0)
@@ -94,7 +89,11 @@ public class Level1 : MonoBehaviour
         else if (!done)
         {
             done = true;
-            StartCoroutine(Reverse());
+            //StartCoroutine(Reverse());
+            timeline.Play();
+            PlayerSwitcher.Instance.SwitchPlayer(0);
+            player.torch.SetActive(true);
+            player.SetHasTorch(true);
         }
     }
 
