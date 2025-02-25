@@ -12,50 +12,46 @@ public class Level1 : MonoBehaviour
 {
     public Tilemap Tilemap;
     public JumpingPlayer prometheus;
-    public TextMeshPro text;
-    public Transform fade;
-    public string[] gameOverMessage;
+    public RectTransform fade;    
     public Zeus zeus;
     public AudioClip deathSound;
     public float bpm = 77;
     public float tilesPerBeat = 1;
-    private float scrollSpeed;
+    private float scrollSpeed, StartScrollSpeed;
     public AudioSource audioSource, deathSoundSource;
 
-    public float levelLength;
-    public Transform levelbar;
+    public TextReveal textReveal;
 
-    public PixelPerfectCamera pixelPerfectCamera;
+    public float levelLength;
+    //public Transform levelbar;
     public Forscher player;
     public PlayableDirector timeline;
 
+
+    private void CalculateScrollSpeed()
+    {
+        StartScrollSpeed = (bpm / 60f) * tilesPerBeat * 2;
+        scrollSpeed = StartScrollSpeed;
+    }
+
     private void Start()
     {
-        text.gameObject.SetActive(false);
         prometheus.transform.localPosition = new Vector3(-2, 5);
         audioSource = GetComponent<AudioSource>();
-        scrollSpeed = (bpm / 60f) * tilesPerBeat * 2;
+        CalculateScrollSpeed();
         //levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
-        levelbar.localScale = new Vector3(levelLength, 1, 1);
-        
+        //levelbar.localScale = new Vector3(levelLength, 1, 1);
+        textpos = textReveal.transform.position;
     }
 
-    private void OnEnable()
-    {
-        pixelPerfectCamera.assetsPPU = 256;
-    }
-
-    private void OnDisable()
-    {
-        pixelPerfectCamera.assetsPPU = 16;
-    }
+    private Vector3 textpos;
 
     private void OnValidate()
     {
-        scrollSpeed = (bpm / 60f) * tilesPerBeat * 2;
+        CalculateScrollSpeed();
         // Return the total level length as an integer
         //levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
-        levelbar.localScale = new Vector3 (levelLength, 1, 1);
+        //levelbar.localScale = new Vector3 (levelLength, 1, 1);
         print(audioSource.clip.length);
     }
 
@@ -80,11 +76,9 @@ public class Level1 : MonoBehaviour
 
     void Update()
     {
-
         if (Tilemap.transform.localPosition.x > -levelLength)
         {
             Tilemap.transform.localPosition += new Vector3(Time.deltaTime * -scrollSpeed, 0);
-            print("done");            
         }
         else if (!done)
         {
@@ -100,61 +94,67 @@ public class Level1 : MonoBehaviour
     public void Reset()
     {
         Tilemap.transform.localPosition = Vector3.zero;
-        prometheus.gameObject.SetActive(true);
+        prometheus.visual.enabled = true;
+        prometheus.enabled = true;
+        //prometheus.gameObject.SetActive(true);
         prometheus.transform.localPosition = new Vector3(-2, 5);
-        text.gameObject.SetActive(false);
         zeus.Reset();
         audioSource.pitch = 1;
         audioSource.Play();
+        scrollSpeed = StartScrollSpeed;
+        fire.Play();
     }
-   
 
     public float animationspeed = 1;
 
-    private int currentText = 0;
 
     public CinemachineImpulseSource impulseSource;
+    public ParticleSystem fire;
 
     public IEnumerator Death()
     {
+        fire.Stop();
         StartCoroutine(StopMusic());
+        print("dead");
         impulseSource.GenerateImpulse();
-        deathSoundSource.PlayOneShot(deathSound);
-        float speed = scrollSpeed;        
-        float t1 = 0;
-        text.gameObject.SetActive(true);
-        text.text = gameOverMessage[currentText];
-        currentText = (currentText + 1) % gameOverMessage.Length;
+        deathSoundSource.PlayOneShot(deathSound); 
+        float t1 = 0;       
         zeus.dead = true;
         while (t1 < 1)
         {
-            scrollSpeed = Mathf.Lerp(speed, 0, t1);
+
+            prometheus.light.intensity = Mathf.Lerp(prometheus.b, 0, t1);
+            scrollSpeed = Mathf.Lerp(StartScrollSpeed, 0, t1);
             t1 += Time.deltaTime/0.5f;
             yield return null;
         }
+        prometheus.light.intensity = 0;
+        textReveal.gameObject.SetActive(true);
         scrollSpeed = 0;
         float t = 0;
+        float width = fade.sizeDelta.x/2 + 472f/2f; //750; //fade.bounds.extents.x + 14.75f/2;
         while (t < 1)
         {
-            fade.transform.localPosition = Vector3.Lerp(new Vector3(11,8,0), new Vector3(0, 8, 0), Mathf.Sin(t * Mathf.PI * 0.5f));
-            //prometheus.localPosition += new Vector3(Time.deltaTime * -scrollSpeed, 0);
-            //text.localPosition = Vector3.Lerp(textpos+Vector3.right*9, textpos, t);
+            fade.transform.localPosition = Vector3.Lerp(new Vector3(width, 8.5f,0), new Vector3(0, 8.5f, 0), Mathf.Sin(t * Mathf.PI * 0.5f));
+            textReveal.transform.position = textpos;
             t += Time.deltaTime/ animationspeed;
             yield return null;
         }
         yield return new WaitForSeconds(2);
-
+        textReveal.transform.position = textpos;
         //text.localPosition = textpos;
         print("Level ertgh");
-        scrollSpeed = speed;
+        scrollSpeed = StartScrollSpeed;
         Reset();
         float t2 = 0;
         while (t2 < 1)
         {
-            fade.transform.localPosition = Vector3.Lerp(new Vector3(0, 8, 0), new Vector3(-11, 8, 0), 1f - Mathf.Cos(t2 * Mathf.PI * 0.5f));
+            fade.transform.localPosition = Vector3.Lerp(new Vector3(0, 8.5f, 0), new Vector3(-width, 8.5f, 0), 1f - Mathf.Cos(t2 * Mathf.PI * 0.5f));
+            textReveal.transform.position = textpos;
             t2 += Time.deltaTime/ animationspeed;
             yield return null;
         }
+        textReveal.gameObject.SetActive(false);
     }
 
     public IEnumerator StopMusic()

@@ -53,7 +53,7 @@ public class ZeusBlizzard : MonoBehaviour
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.velocity = Vector2.down * projectileSpeed;
+            rb.linearVelocity = Vector2.down * projectileSpeed;
         }
 
         // Destroy the projectile after its lifetime

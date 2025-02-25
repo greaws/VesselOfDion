@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 7
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -48,6 +48,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: 81362318da2abcb4aba69bb9eec20d84, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a1c3372dd25d42aebc35d08d582bc574_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: b750fe2396fc4d94aa0ca9a9da1b359c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b65df5aa749744a48bdbe98c3b9fd2f0_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 3c7bee48dfe8d2b4f81f0a60d102fbfc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSize_d08e055534ca4dd09febbdb8bbba8596_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 3c7bee48dfe8d2b4f81f0a60d102fbfc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -67,9 +79,17 @@ Material:
     - _Size: 0.05
     - _Strength: 0.2
     - _brightness: 10
-    - _test: 2.1
+    - _height: 270
+    - _invert: 0
+    - _step: 0
+    - _test: 83.84
     m_Colors:
-    - _Bright: {r: 0.6196079, g: 0.5254902, b: 0.38039213, a: 1}
-    - _Dark: {r: 0.38431373, g: 0.27058816, b: 0.14117646, a: 1}
+    - _Bright: {r: 0.851, g: 0.73129624, b: 0.542087, a: 1}
+    - _Dark: {r: 0.266, g: 0.18728572, b: 0.09771429, a: 1}
+    - _Fire: {r: 0.472, g: 0.38711867, b: 0.3186, a: 1}
+    - _offset: {r: 0.0025, g: -0.0168, b: 0, a: 0}
     - _position: {r: -0.5, g: -0.23, b: 0, a: 0}
+    - _tiling: {r: 0.995, g: 1.0145, b: 0, a: 0}
+    - _tiling_2: {r: 0.2, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

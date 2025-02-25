@@ -82,7 +82,7 @@ public class Forscher : Player
         Vector2 dir = new Vector2(x, y);
 
         Walk(dir);
-        anim.SetHorizontalMovement(x, y, rb.velocity.y);
+        anim.SetHorizontalMovement(x, y, rb.linearVelocity.y);
 
         if (coll.onGround)
         {
@@ -148,13 +148,13 @@ public class Forscher : Player
             }
         }
 
-        rb.velocity = new Vector2(dir.x * speed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(dir.x * speed, rb.linearVelocity.y);
     }
 
     private void Jump(Vector2 dir)
     {
-        rb.velocity = new Vector2(rb.velocity.x, 0);
-        rb.velocity += dir * jumpForce;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
+        rb.linearVelocity += dir * jumpForce;
         //jumpParticle.Play();
     }
 

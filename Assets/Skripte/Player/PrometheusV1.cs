@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class JumpingPlayer : Player
 {
     [Header("Jump Settings")]
-    [SerializeField] private float jumpHeight;      // Jump distance in tiles
-    [SerializeField] private float gravity;       // Manual gravity
+    [SerializeField] private float jumpHeight;    // Jump height in tiles
+    [SerializeField] private float gravity;       
 
     [Header("Collision Settings")]
     [SerializeField] private LayerMask groundLayer;
@@ -17,31 +18,60 @@ public class JumpingPlayer : Player
 
     public Level1 Level1;
 
-    private float verticalVelocity = 0f;  // Manages vertical movement
+    private float verticalVelocity = 0f;
     private bool isGrounded;
+    public Light2D light;
+
+    public SpriteRenderer visual;
 
     void Start()
     {
         verticalVelocity = 0f;
         boxCollider = GetComponent<BoxCollider2D>();
+        isGrounded = true;
+        fixedPosition = fixedPosition = transform.position;
+        visual = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    private void OnEnable()
     {
+        verticalVelocity = 0f;
+    }
+
+    private Vector2 fixedPosition;
+    private Vector3 previousPosition;
+    public float maxFallSpeed = -10f; // Adjust based on game feel
+
+    private void FixedUpdate()
+    {
+
         // Check if the player is on the ground
         //isGrounded = IsGrounded();
         // Handle Jump Input
         if (Input.GetButton("Jump") && isGrounded)
         {
-            verticalVelocity = CalculateJumpForce(jumpHeight*transform.lossyScale.y, gravity);  // Set the exact jump speed
+            verticalVelocity = CalculateJumpForce(jumpHeight, gravity);  // Set the exact jump speed
         }
 
-        verticalVelocity += gravity * Time.deltaTime;
-        Vector3 moveDelta = new Vector3(0, verticalVelocity * Time.deltaTime, 0);
-        MoveWithGroundCheck(moveDelta);
+        verticalVelocity += gravity * Time.fixedDeltaTime;
+        if (verticalVelocity < maxFallSpeed)
+            verticalVelocity = maxFallSpeed;
+        previousPosition = fixedPosition;
+        fixedPosition += MoveWithGroundCheck(verticalVelocity * Time.fixedDeltaTime);
 
         // Check for side collisions
         CheckSideCollisions();
+    }
+
+    public float a,b;
+
+    private void Update()
+    {
+        // Calculate interpolation factor
+        float alpha = (Time.time - Time.fixedTime) / Time.fixedDeltaTime;
+        light.intensity = Mathf.Lerp(a,b,1 + Mathf.Sin(Time.time*flickerSpeed)/2);
+        // Interpolate between the previous and current position
+        transform.position = Vector3.Lerp(previousPosition, fixedPosition, alpha);
     }
 
     private float CalculateJumpForce(float jumpHeight, float gravity)
@@ -51,40 +81,35 @@ public class JumpingPlayer : Player
 
     public BoxCollider2D boxCollider;
 
-    private void MoveWithGroundCheck(Vector3 moveDelta)
+    public float flickerSpeed;
+
+    private Vector2 MoveWithGroundCheck(float moveDelta)
     {
-        Vector2 boxCenter = (Vector2)transform.position + Vector2.Scale(boxCollider.offset, transform.lossyScale);
-        Vector2 boxSize = Vector2.Scale(boxCollider.size, transform.lossyScale);
+        Vector2 boxCenter = (Vector2)transform.position + boxCollider.offset;
+        Vector2 boxSize = boxCollider.size;
 
         RaycastHit2D hit = Physics2D.BoxCast(
             boxCenter,
             boxSize,
             0f,
             Vector2.down,
-            Mathf.Abs(moveDelta.y) + 0.01f,
+            Mathf.Abs(moveDelta) + 0.01f,
             groundLayer
         );
 
-        Debug.DrawLine(boxCenter, boxCenter + Vector2.down * (Mathf.Abs(moveDelta.y) + 0.01f), Color.red);
+        Debug.DrawLine(boxCenter, boxCenter + Vector2.down * (Mathf.Abs(moveDelta) + 0.01f), Color.red);
 
-        if (hit.collider != null && moveDelta.y < 0)
-        {
-            float distanceToGround = hit.distance;
-
-            // Snap to ground
-            transform.position += new Vector3(0, -distanceToGround, 0);
+        if (hit.collider != null && moveDelta < 0 && hit.distance < Mathf.Abs(moveDelta))
+        {           
             verticalVelocity = 0;
-
-            // Set grounded to true
             isGrounded = true;
+            return new Vector3(0, -hit.distance, 0);
         }
         else
         {
-            // Move normally
-            transform.position += moveDelta;
-
             // Set grounded to false if falling or moving up
             isGrounded = false;
+            return Vector3.up * moveDelta;
         }
     }
 
@@ -126,14 +151,14 @@ public class JumpingPlayer : Player
     // Manual side collision detection
     private void CheckSideCollisions()
     {
-        float sideCheckDistance = boxCollider.size.x * transform.lossyScale.y / 2;
+        float sideCheckDistance = boxCollider.size.x / 2;
 
-        Vector3 origin = transform.position + Vector3.up * 1/2f;
+        Vector2 origin = fixedPosition + Vector2.up * 1/2f;
 
         // Check for collision to the right and left
         RaycastHit2D hitRight = Physics2D.Raycast(origin, Vector2.right, sideCheckDistance, groundLayer);
         
-        Debug.DrawLine(origin, origin + Vector3.right * sideCheckDistance, Color.green);
+        Debug.DrawLine(origin, origin + Vector2.right * sideCheckDistance, Color.green);
 
         if (hitRight.collider != null)
         {
@@ -146,7 +171,9 @@ public class JumpingPlayer : Player
     {
         dead.Play();
         Level1.StartCoroutine(Level1.Death());
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        this.enabled = false;
+        visual.enabled = false;
     }
 
     // Draw debug gizmos for ground check

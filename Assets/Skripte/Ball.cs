@@ -21,7 +21,7 @@ public class Ball : MonoBehaviour
 
         float yVelocity = UnityEngine.Random.Range(-1f, 1f);
 
-        rb.velocity = new Vector2(xVelocity * startingSpeed, yVelocity * startingSpeed);
+        rb.linearVelocity = new Vector2(xVelocity * startingSpeed, yVelocity * startingSpeed);
     }
 
     // Update is called once per frame

@@ -10,7 +10,7 @@ public class HorizontalMovementPlayer : Player
 
     [SerializeField] private Rigidbody2D rb; //! Referenz zum Rigidbody2D des Spielers
     [SerializeField] private Transform groundCheck; //! Referenz zum GroundCheck (Empty GameObject)
-    [SerializeField] private LayerMask groundLayer; //! Layer für den Boden, im Inspector zuweisen
+    [SerializeField] private LayerMask groundLayer; //! Layer fï¿½r den Boden, im Inspector zuweisen
     public DialogueUI DialogueUI { get; private set; }
     public IInteractable Interactable { get; set; }
 
@@ -23,7 +23,7 @@ public class HorizontalMovementPlayer : Player
 
     void Start()
     {
-        // Debug-Log zur Überprüfung, ob das Skript aktiviert ist
+        // Debug-Log zur ï¿½berprï¿½fung, ob das Skript aktiviert ist
         //Debug.Log("HorizontalMovementPlayer gestartet.");
     }
 
@@ -33,7 +33,7 @@ public class HorizontalMovementPlayer : Player
         //Debug.Log($"Horizontal Input: {horizontal}"); //! Ausgabe des horizontalen Inputs
 
         isGrounded = IsGrounded();
-        //Debug.Log($"IsGrounded: {isGrounded}"); //! Überprüfung, ob der Spieler auf dem Boden ist
+        //Debug.Log($"IsGrounded: {isGrounded}"); //! ï¿½berprï¿½fung, ob der Spieler auf dem Boden ist
 
         Flip();
     }
@@ -46,9 +46,9 @@ public class HorizontalMovementPlayer : Player
             return;
         }
 
-        // Debug-Log zur Überprüfung der Bewegung
+        // Debug-Log zur ï¿½berprï¿½fung der Bewegung
         //Debug.Log($"Bewege den Spieler: Geschwindigkeit = {horizontal * speed}");
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(horizontal * speed, rb.linearVelocity.y);
     }
 
     private bool IsGrounded()
@@ -59,7 +59,7 @@ public class HorizontalMovementPlayer : Player
             return false;
         }
 
-        // Überprüfen, ob der Spieler den Boden berührt
+        // ï¿½berprï¿½fen, ob der Spieler den Boden berï¿½hrt
         bool grounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
         //Debug.Log($"Grounded Check: {grounded}");
         return grounded;
