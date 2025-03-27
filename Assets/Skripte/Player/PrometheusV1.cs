@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -12,8 +13,10 @@ public class JumpingPlayer : Player
     [Header("Collision Settings")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float collisionRadius = 0.02f;
+    private Rigidbody2D rb;
 
     [Header("Effects")]
+    
     public ParticleSystem dead;
 
     public Level1 Level1;
@@ -31,6 +34,7 @@ public class JumpingPlayer : Player
         isGrounded = true;
         fixedPosition = fixedPosition = transform.position;
         visual = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
@@ -39,29 +43,48 @@ public class JumpingPlayer : Player
     }
 
     private Vector2 fixedPosition;
-    private Vector3 previousPosition;
     public float maxFallSpeed = -10f; // Adjust based on game feel
+
+
 
     private void FixedUpdate()
     {
-
         // Check if the player is on the ground
-        //isGrounded = IsGrounded();
+        isGrounded = IsGrounded();
+
+        // Reset vertical velocity when grounded (prevents infinite accumulation)
+        if (isGrounded && verticalVelocity < 0)
+        {
+            verticalVelocity = 0;
+        }
+
         // Handle Jump Input
         if (Input.GetButton("Jump") && isGrounded)
         {
-            verticalVelocity = CalculateJumpForce(jumpHeight, gravity);  // Set the exact jump speed
+            verticalVelocity = CalculateJumpForce(jumpHeight, gravity); // Set exact jump speed
         }
 
-        verticalVelocity += gravity * Time.fixedDeltaTime;
-        if (verticalVelocity < maxFallSpeed)
-            verticalVelocity = maxFallSpeed;
-        previousPosition = fixedPosition;
-        fixedPosition += MoveWithGroundCheck(verticalVelocity * Time.fixedDeltaTime);
+        // Apply gravity **only when not grounded**
+        if (!isGrounded)
+        {
+            verticalVelocity += gravity * Time.fixedDeltaTime;
+            verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed); // Clamp fall speed
+        }
+
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalVelocity); // Apply velocity once
+
+        // Debugging
+        Debug.Log($"Velocity: {rb.linearVelocity}");
 
         // Check for side collisions
-        CheckSideCollisions();
+        if (IsHittingWall())
+        {
+            print("aua");
+            Die();
+        }
     }
+
+
 
     public float a,b;
 
@@ -71,8 +94,28 @@ public class JumpingPlayer : Player
         float alpha = (Time.time - Time.fixedTime) / Time.fixedDeltaTime;
         light.intensity = Mathf.Lerp(a,b,1 + Mathf.Sin(Time.time*flickerSpeed)/2);
         // Interpolate between the previous and current position
-        transform.position = Vector3.Lerp(previousPosition, fixedPosition, alpha);
+        //transform.position = Vector3.Lerp(previousPosition, fixedPosition, alpha);
     }
+
+    public float raycastDistance;
+
+    bool IsGrounded()
+    {
+        // Get the player's BoxCollider2D
+        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+
+        // Define the box center slightly below the actual collider to detect ground
+        Vector2 origin = (Vector2)transform.position + Vector2.up * 0.02f;
+
+        // Perform the BoxCast to check for ground
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.05f, groundLayer);
+
+        // Debug visualization
+        Debug.DrawRay(origin, Vector2.down * 0.05f, hit.collider != null ? Color.green : Color.red);
+
+        return hit.collider != null;
+    }
+
 
     private float CalculateJumpForce(float jumpHeight, float gravity)
     {
@@ -83,43 +126,45 @@ public class JumpingPlayer : Player
 
     public float flickerSpeed;
 
-    private Vector2 MoveWithGroundCheck(float moveDelta)
+    bool IsHittingWall()
     {
-        Vector2 boxCenter = (Vector2)transform.position + boxCollider.offset;
-        Vector2 boxSize = boxCollider.size;
+        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
 
-        RaycastHit2D hit = Physics2D.BoxCast(
-            boxCenter,
-            boxSize,
-            0f,
-            Vector2.down,
-            Mathf.Abs(moveDelta) + 0.01f,
-            groundLayer
-        );
+        // Adjust BoxCast center based on character's feet
+        float yOffset = rb.linearVelocity.y < 0 ? 0.1f : 0f; // Lift when falling to avoid floor clipping
+        Vector2 boxCenter = (Vector2)transform.position +
+                            Vector2.up * (boxCollider.size.y * 0.4f + yOffset) +
+                            Vector2.right * (boxCollider.size.x / 2 + 0.04f); // Slight forward shift
 
-        Debug.DrawLine(boxCenter, boxCenter + Vector2.down * (Mathf.Abs(moveDelta) + 0.01f), Color.red);
+        // Make the box wider to ensure wall detection
+        float extraWidth = 0.5f;  // Increase for better wall detection
+        Vector2 boxSize = new Vector2(0.08f + extraWidth, boxCollider.size.y * 0.6f);
 
-        if (hit.collider != null && moveDelta < 0 && hit.distance < Mathf.Abs(moveDelta))
-        {           
-            verticalVelocity = 0;
-            isGrounded = true;
-            return new Vector3(0, -hit.distance, 0);
-        }
-        else
+        // Perform BoxCast
+        RaycastHit2D hit = Physics2D.BoxCast(boxCenter, boxSize, 0f, Vector2.right, 0f, groundLayer);
+
+        // Debug Visualization
+        Color boxColor = hit.collider != null ? Color.red : Color.yellow;
+        DrawBoxCast(boxCenter, boxSize, Vector2.right, 0f, boxColor);
+
+        // Prevent false positives when falling
+        if (hit.collider != null && rb.linearVelocity.y < 0)
         {
-            // Set grounded to false if falling or moving up
-            isGrounded = false;
-            return Vector3.up * moveDelta;
+            print(rb.linearVelocity.y);
+            return false;
         }
+
+        return hit.collider != null;
     }
 
-    // Draw the BoxCast for visualization
-    private void DrawBoxCast(Vector2 center, Vector2 size, Vector2 direction, float distance, Color color)
+
+
+    // Function to draw the BoxCast in the Scene View
+    void DrawBoxCast(Vector2 center, Vector2 size, Vector2 direction, float distance, Color color)
     {
-        
         Vector2 halfSize = size / 2f;
 
-        // Define the four corners of the box before moving
+        // Calculate the four corners of the box
         Vector2 topLeft = center + new Vector2(-halfSize.x, halfSize.y);
         Vector2 topRight = center + new Vector2(halfSize.x, halfSize.y);
         Vector2 bottomLeft = center + new Vector2(-halfSize.x, -halfSize.y);
@@ -127,12 +172,12 @@ public class JumpingPlayer : Player
 
         // Offset the corners in the cast direction
         Vector2 offset = direction.normalized * distance;
-        // print(offset);
+
         // Draw the original box
-        Debug.DrawLine(topLeft, topRight, Color.green);
-        Debug.DrawLine(topRight, bottomRight, Color.green);
-        Debug.DrawLine(bottomRight, bottomLeft, Color.green);
-        Debug.DrawLine(bottomLeft, topLeft, Color.green);
+        Debug.DrawLine(topLeft, topRight, color);
+        Debug.DrawLine(topRight, bottomRight, color);
+        Debug.DrawLine(bottomRight, bottomLeft, color);
+        Debug.DrawLine(bottomLeft, topLeft, color);
 
         // Draw the casted box
         Debug.DrawLine(topLeft + offset, topRight + offset, color);
@@ -140,31 +185,16 @@ public class JumpingPlayer : Player
         Debug.DrawLine(bottomRight + offset, bottomLeft + offset, color);
         Debug.DrawLine(bottomLeft + offset, topLeft + offset, color);
 
-        // Draw lines connecting the original and casted box
-        //Debug.DrawLine(topLeft, topLeft + offset, color);
-        //Debug.DrawLine(topRight, topRight + offset, color);
-        //Debug.DrawLine(bottomLeft, bottomLeft + offset, color);
-        //Debug.DrawLine(bottomRight, bottomRight + offset, color);
+        // Draw connecting lines
+        Debug.DrawLine(topLeft, topLeft + offset, color);
+        Debug.DrawLine(topRight, topRight + offset, color);
+        Debug.DrawLine(bottomLeft, bottomLeft + offset, color);
+        Debug.DrawLine(bottomRight, bottomRight + offset, color);
     }
 
 
-    // Manual side collision detection
-    private void CheckSideCollisions()
-    {
-        float sideCheckDistance = boxCollider.size.x / 2;
 
-        Vector2 origin = fixedPosition + Vector2.up * 1/2f;
 
-        // Check for collision to the right and left
-        RaycastHit2D hitRight = Physics2D.Raycast(origin, Vector2.right, sideCheckDistance, groundLayer);
-        
-        Debug.DrawLine(origin, origin + Vector2.right * sideCheckDistance, Color.green);
-
-        if (hitRight.collider != null)
-        {
-            Die();  // Die if hitting a wall from the side
-        }
-    }
 
     // Handles death
     public void Die()

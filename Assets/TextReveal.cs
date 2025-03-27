@@ -18,6 +18,7 @@ public class TextReveal : MonoBehaviour
 
     private void OnEnable()
     {
+        textMeshPro = GetComponent<TMP_Text>();
         textMeshPro.enabled = true;
         textMeshPro.text = gameOverMessage[currentText];
         currentText = (currentText + 1) % gameOverMessage.Length;
