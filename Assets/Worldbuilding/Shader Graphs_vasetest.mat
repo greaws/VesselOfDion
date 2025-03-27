@@ -83,7 +83,7 @@ Material:
     - _Size: 0.05
     - _Strength: 0.2
     - _brightness: 10
-    - _distort: 1
+    - _distort: 0
     - _height: 270
     - _intensity: 1
     - _invert: 0
