@@ -47,8 +47,9 @@ Material:
     m_Floats:
     - _Brightnes: 1
     - _ScrollSpeed: 0.42
-    - _YOffset: -3.98
-    m_Colors: []
+    - _YOffset: -5.12
+    m_Colors:
+    - _gradient: {r: 1.23, g: 0.02, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4146247526717265912
