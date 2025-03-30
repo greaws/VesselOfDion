@@ -5,6 +5,7 @@ public class TriggerAnimation : MonoBehaviour
 {
     private Animator anim;
     private AudioSource audiosource;
+    private bool isAbgespielt;
 
     void Start()
     {
@@ -17,7 +18,12 @@ public class TriggerAnimation : MonoBehaviour
         if (other.CompareTag("Player"))  // Check if the player enters
         {
             anim.SetTrigger("Break");  // Trigger the animation
-            audiosource.Play();
+            if (!isAbgespielt)
+            {
+                audiosource.Play();
+                isAbgespielt = true;
+            }
+          
         }
     }
 }
