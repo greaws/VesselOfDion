@@ -8,5 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VoD Map.unity
     guid: f5b3d4162dd0c9b41b3345df2ba79fff
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 1c400a3f5b8dd3e4883abdf17d4a9515
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 713d6f65bd4aaf345b425818cc14f8b7, type: 2}
+  m_UseUCBPForAssetBundles: 0
