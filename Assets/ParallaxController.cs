@@ -4,28 +4,59 @@ using UnityEngine;
 
 public class ParallaxController : MonoBehaviour
 {
-    public Vector2 size, startpos;
+    public Vector2 autoscrol;
+    private Vector2 size;
     private Transform cam;
-    [Range(0,1)]
+    [Range(0, 1)]
     public float parallaxEffect;
+
+    private Transform[] copies = new Transform[2];
+    private float startY;
 
     void Start()
     {
         cam = Camera.main.transform;
-        startpos = transform.position;
+
         size = GetComponent<SpriteRenderer>().bounds.size;
+        startY = transform.position.y;
+
+        copies[0] = transform;
+
+        // Clone the cloud and remove script to avoid recursion
+        GameObject second = Instantiate(gameObject, transform.position + new Vector3(size.x, 0, 0), transform.rotation, transform.parent);
+        Destroy(second.GetComponent<ParallaxController>());
+        copies[1] = second.transform;
     }
 
     void LateUpdate()
     {
-        Vector2 temp = cam.position * (1 - parallaxEffect);
+        Vector2 camOffset = cam.position * parallaxEffect;
 
-        transform.position = (Vector3)startpos + cam.position * parallaxEffect;
+        for (int i = 0; i < copies.Length; i++)
+        {
+            // Move horizontally based on autoscroll
+            copies[i].position += (Vector3)(autoscrol * Time.deltaTime);
 
-        if (temp.x > startpos.x + size.x) startpos.x += size.x;
-        else if (temp.x < startpos.x - size.x) startpos.x -= size.x;
+            // Adjust Y for parallax (optional — if you want vertical movement)
+            copies[i].position = new Vector3(
+                copies[i].position.x,
+                startY + camOffset.y,
+                copies[i].position.z
+            );
+        }
 
-        if (temp.y > startpos.y + size.y) startpos.y += size.y;
-        else if (temp.x < startpos.y - size.y) startpos.y -= size.y;
+        // Loop logic
+        foreach (Transform t in copies)
+        {
+            float camX = cam.position.x;
+            if (camX - t.position.x > size.x)
+            {
+                t.position += new Vector3(size.x * 2f, 0, 0);
+            }
+            else if (camX - t.position.x < -size.x)
+            {
+                t.position -= new Vector3(size.x * 2f, 0, 0);
+            }
+        }
     }
 }

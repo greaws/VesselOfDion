@@ -44,7 +44,8 @@ public class Forscher : Player
     public ParticleSystem jumpParticle;
 
     public GameObject door;
-
+    private AudioSource footestps;
+    public AudioClip jump;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,8 @@ public class Forscher : Player
         //controls.CharacterControls.Move.canceled += context => {
         //    rb.velocity = Vector2.zero;
         //};
+
+        footestps = GetComponent<AudioSource>();
 
         coll = GetComponent<Collision>();
         rb = GetComponent<Rigidbody2D>();
@@ -155,7 +158,16 @@ public class Forscher : Player
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
         rb.linearVelocity += dir * jumpForce;
+        footestps.PlayOneShot(jump);
         //jumpParticle.Play();
+    }
+
+
+
+    public void Footstep()
+    {
+        footestps.pitch = Random.Range(0.8f,1.2f);
+        footestps.Play();
     }
 
     public void SetHasTorch(bool flag)
