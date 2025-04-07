@@ -7,6 +7,7 @@ public class TriggerAnimation : MonoBehaviour
     private Animator anim;
     private AudioSource audiosource;
     private CinemachineImpulseSource impulseSource;
+    private bool isAbgespielt;
 
     void Start()
     {
@@ -23,6 +24,12 @@ public class TriggerAnimation : MonoBehaviour
             audiosource.Play();
             MusicManager.Instance.PlayDungeonMusic();
             impulseSource.GenerateImpulse();
+            if (!isAbgespielt)
+            {
+                audiosource.Play();
+                isAbgespielt = true;
+            }
+          
         }
     }
 }
