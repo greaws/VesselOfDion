@@ -69,6 +69,7 @@ public class EvadingPrometheus : MonoBehaviour
 
     private void OnDisable()
     {
+        forscher.GetComponent<Machete>().enabled = true;
         forscher.SetActive(true);
         door2.SetActive(false);
     }

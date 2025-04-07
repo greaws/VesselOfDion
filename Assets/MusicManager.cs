@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -35,5 +36,10 @@ public class MusicManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    internal void StopMusic()
+    {
+        musicPlayer.Pause();
     }
 }

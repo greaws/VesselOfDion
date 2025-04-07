@@ -11,21 +11,22 @@ public class ParallaxController : MonoBehaviour
     public float parallaxEffect;
 
     private Transform[] copies = new Transform[2];
-    private float startY;
+    private Vector2[] startPositions = new Vector2[2]; // original positions of the copies
 
     void Start()
     {
         cam = Camera.main.transform;
-
         size = GetComponent<SpriteRenderer>().bounds.size;
-        startY = transform.position.y;
 
+        // First copy
         copies[0] = transform;
+        startPositions[0] = transform.position;
 
-        // Clone the cloud and remove script to avoid recursion
+        // Second copy
         GameObject second = Instantiate(gameObject, transform.position + new Vector3(size.x, 0, 0), transform.rotation, transform.parent);
         Destroy(second.GetComponent<ParallaxController>());
         copies[1] = second.transform;
+        startPositions[1] = second.transform.position;
     }
 
     void LateUpdate()
@@ -34,28 +35,25 @@ public class ParallaxController : MonoBehaviour
 
         for (int i = 0; i < copies.Length; i++)
         {
-            // Move horizontally based on autoscroll
-            copies[i].position += (Vector3)(autoscrol * Time.deltaTime);
+            // Scroll the base position with autoscroll over time
+            startPositions[i] += autoscrol * Time.deltaTime;
 
-            // Adjust Y for parallax (optional — if you want vertical movement)
-            copies[i].position = new Vector3(
-                copies[i].position.x,
-                startY + camOffset.y,
-                copies[i].position.z
-            );
+            // Update position: base + parallax effect
+            Vector3 newPos = startPositions[i] + camOffset;
+            copies[i].position = new Vector3(newPos.x, newPos.y, copies[i].position.z);
         }
 
-        // Loop logic
-        foreach (Transform t in copies)
+        // Reposition copies if they go too far from the camera
+        foreach (int i in new int[] { 0, 1 })
         {
             float camX = cam.position.x;
-            if (camX - t.position.x > size.x)
+            if (camX - copies[i].position.x > size.x)
             {
-                t.position += new Vector3(size.x * 2f, 0, 0);
+                startPositions[i] += new Vector2(size.x * 2f, 0);
             }
-            else if (camX - t.position.x < -size.x)
+            else if (camX - copies[i].position.x < -size.x)
             {
-                t.position -= new Vector3(size.x * 2f, 0, 0);
+                startPositions[i] -= new Vector2(size.x * 2f, 0);
             }
         }
     }

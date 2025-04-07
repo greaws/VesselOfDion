@@ -13,20 +13,16 @@ public class IntroTextController : MonoBehaviour
     private int currentSectionIndex = 0;
     public float speed;
     public AudioSource audioSource;
-
     private Coroutine revealCoroutine;
-
     public Image bg;
-
     private bool isRevealing = false;
-
     public Animator forscher;
     public CanvasGroup continuePrompt;
+    public Sprite[] face;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-
         // Start the text animation for the first section
         introText = GetComponent<TextMeshProUGUI>();
         revealCoroutine = StartCoroutine(RevealText(sections[currentSectionIndex]));
@@ -80,6 +76,7 @@ public class IntroTextController : MonoBehaviour
 
     IEnumerator RevealText(string text)
     {
+        forscher.SetBool("Talk", true);
         isRevealing = true;
         introText.text = text;
         introText.maxVisibleCharacters = 0;
@@ -94,5 +91,6 @@ public class IntroTextController : MonoBehaviour
         }
         isRevealing = false;
         continuePrompt.alpha = 1;
+        forscher.SetBool("Talk", false);
     }
 }

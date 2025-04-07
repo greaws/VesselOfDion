@@ -42,6 +42,7 @@ public class Level1 : MonoBehaviour
         //levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
         //levelbar.localScale = new Vector3(levelLength, 1, 1);
         textpos = textReveal.transform.position;
+        MusicManager.Instance.StopMusic();
     }
 
     private Vector3 textpos;

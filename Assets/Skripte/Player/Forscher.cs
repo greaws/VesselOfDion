@@ -124,12 +124,6 @@ public class Forscher : Player
             side = -1;
             anim.Flip(side);
         }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (coll.onGround)
-                anim.SetTrigger("Attack");
-        }
     }
 
     void GroundTouch()
