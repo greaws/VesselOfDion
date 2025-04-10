@@ -166,19 +166,17 @@ public class Forscher : Player
 
     public void SetHasTorch(bool flag)
     {
-        print("torch");
         hasTorch = flag;
         torch.SetActive(flag);
         if (flag)
         {
             animator.SetLayerWeight(1, 0);
             animator.SetLayerWeight(2, 1);
-        }        
+        }
         else
         {
             animator.SetLayerWeight(1, 1);
             animator.SetLayerWeight(2, 0);
         }
-        door.SetActive(!flag);
     }
 }
