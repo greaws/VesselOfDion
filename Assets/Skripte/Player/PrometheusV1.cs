@@ -148,10 +148,16 @@ public class JumpingPlayer : Player
         DrawBoxCast(boxCenter, boxSize, Vector2.right, 0f, boxColor);
 
         // Prevent false positives when falling
-        if (hit.collider != null && rb.linearVelocity.y < 0)
+        if (hit.collider != null)
         {
+            Debug.DrawRay(hit.point, hit.normal, Color.blue, 0.5f);
+            // Ignore if the surface is mostly facing upward (like a floor)
+            if (Vector2.Dot(hit.normal, Vector2.up) > 0.5f && rb.linearVelocity.y < 0)
+            {
+                return false;
+            }
             print(rb.linearVelocity.y);
-            return false;
+            //return false;
         }
 
         return hit.collider != null;
@@ -191,8 +197,6 @@ public class JumpingPlayer : Player
         Debug.DrawLine(bottomLeft, bottomLeft + offset, color);
         Debug.DrawLine(bottomRight, bottomRight + offset, color);
     }
-
-
 
 
 

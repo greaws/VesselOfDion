@@ -5745,10 +5745,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6319417088164975828}
     m_Modifications:
-    - target: {fileID: 1642624917364057582, guid: 2d8b52b189bf2044aa2855af5792320b, type: 3}
-      propertyPath: timeline
-      value: 
-      objectReference: {fileID: 8583358290667850634}
     - target: {fileID: 2852942999284948681, guid: 2d8b52b189bf2044aa2855af5792320b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5789,10 +5785,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8032678169121848107, guid: 2d8b52b189bf2044aa2855af5792320b, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 4683013284185883467}
     - target: {fileID: 8636860052311744806, guid: 2d8b52b189bf2044aa2855af5792320b, type: 3}
       propertyPath: m_Name
       value: Level 1
