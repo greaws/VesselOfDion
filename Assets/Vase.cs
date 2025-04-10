@@ -11,6 +11,8 @@ public class Vase : MonoBehaviour
     private SpriteRenderer SpriteRenderer;
     private PlayableDirector playableDirector;
     public GameObject level1;
+    public AudioClip vesselsound;
+    private AudioSource AudioSource;
 
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class Vase : MonoBehaviour
         SpriteRenderer.enabled = true;
         SpriteRenderer.sprite = sprites[missingPieces];
         level1.SetActive(false);
+        AudioSource = GetComponent<AudioSource>();
     }
 
     public void AddKey()
@@ -27,6 +30,7 @@ public class Vase : MonoBehaviour
         poof.SetTrigger("Poof");
         missingPieces--;
         SpriteRenderer.sprite = sprites[missingPieces];
+        AudioSource.PlayOneShot(vesselsound);
 
         if (missingPieces == 0)
         {
