@@ -154,13 +154,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chapter
+      name: chapter3
       rect:
         serializedVersion: 2
-        x: 61
-        y: 118
+        x: 108
+        y: 130
         width: 172
-        height: 47
+        height: 37
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,7 +184,7 @@ TextureImporter:
         width: 21
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -193,6 +193,50 @@ TextureImporter:
       bones: []
       spriteID: 25c6d3443bd08d940bc88e4555d98e47
       internalID: -1136317532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chapter2
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 80
+        width: 173
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e95c56c60332c1042ba3ccd23e779a19
+      internalID: -220926081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chapter1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 21
+        width: 172
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6757a4393d772c34b936509e3ca428de
+      internalID: -180258839
       vertices: []
       indices: 
       edges: []
@@ -211,7 +255,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      chapter: -960957260
+      Chapter1: -180258839
+      Chapter2: -220926081
+      chapter3: -960957260
       jump: 2057398901
       jump_1: 981961616
       jump_10: 1354840849
