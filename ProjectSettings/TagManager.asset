@@ -53,5 +53,8 @@ TagManager:
   - name: Foreground
     uniqueID: 2995263695
     locked: 0
+  - name: Parallax Front
+    uniqueID: 3142697063
+    locked: 0
   m_RenderingLayers:
   - Default
