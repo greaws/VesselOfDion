@@ -9,8 +9,9 @@ public class ParallaxController : MonoBehaviour
     public Vector2 autoscrol;
     private Vector2 size;
     private Transform cam;
-    [Range(0, 1)]
+    [Range(-1, 1)]
     public float parallaxEffect;
+    public Vector2 offset;
 
     private Transform[] copies = new Transform[2];
     private Vector2[] startPositions = new Vector2[2]; // original positions of the copies
@@ -47,7 +48,7 @@ public class ParallaxController : MonoBehaviour
             startPositions[i] += autoscrol * Time.deltaTime;
 
             // Update position: base + parallax effect
-            Vector3 newPos = startPositions[i] + camOffset;
+            Vector3 newPos = startPositions[i] + camOffset + offset;
             copies[i].position = new Vector3(newPos.x, newPos.y, copies[i].position.z);
         }
 
