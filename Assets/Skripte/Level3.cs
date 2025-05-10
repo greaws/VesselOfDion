@@ -70,14 +70,4 @@ public class Level3 : MonoBehaviour
             t -= Time.deltaTime;
         }
     }
-
-    private void OnEnable()
-    {
-        forscher.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        forscher.SetActive(true);
-    }
 }

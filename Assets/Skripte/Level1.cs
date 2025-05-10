@@ -53,7 +53,6 @@ public class Level1 : MonoBehaviour
         // Return the total level length as an integer
         //levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
         //levelbar.localScale = new Vector3 (levelLength, 1, 1);
-        print(audioSource.clip.length);
     }
 
     private IEnumerator Reverse()
