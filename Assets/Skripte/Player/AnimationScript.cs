@@ -24,11 +24,9 @@ public class AnimationScript : MonoBehaviour
         anim.SetBool("Grounded", coll.onGround);
     }
 
-    public void SetHorizontalMovement(float x,float y, float yVel)
+    public void SetHorizontalMovement(float x)
     {
         anim.SetFloat("HorizontalAxis", x);
-        //anim.SetFloat("VerticalAxis", y);
-        //anim.SetFloat("VerticalVelocity", yVel);
     }
 
     public void SetTrigger(string trigger)

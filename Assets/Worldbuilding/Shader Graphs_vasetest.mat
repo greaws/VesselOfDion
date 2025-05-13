@@ -31,12 +31,17 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
+        m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_2e74cf89ab3e4273b5170a751216ebee_Texture_1_Texture2D:
         m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -56,8 +61,28 @@ Material:
         m_Texture: {fileID: 2800000, guid: b750fe2396fc4d94aa0ca9a9da1b359c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b2d18616e30f40a5876d343100ac3737_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: aa1f784d4277bc141b0cca56aec9dec3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_b65df5aa749744a48bdbe98c3b9fd2f0_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 3c7bee48dfe8d2b4f81f0a60d102fbfc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_ca1abe07b17d4623ac408b0822c95d7f_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: aa1f784d4277bc141b0cca56aec9dec3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f6d087eada2d4230bfbbb2f390639168_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f7748220f7474fe6b34faaf9a0ca3b60_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSize_786def96c0fd41bfbd4bf54c39283f74_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSize_d08e055534ca4dd09febbdb8bbba8596_Texture_1_Texture2D:
@@ -82,19 +107,38 @@ Material:
     - _QueueOffset: 0
     - _Size: 0.05
     - _Strength: 0.2
+    - _TexelSize: 256
+    - _ambient: 0.16
     - _brightness: 10
+    - _chill: 0.85
     - _distort: 0
+    - _gamma: 2
     - _height: 270
     - _intensity: 1
     - _invert: 0
+    - _lightz: -11.64
+    - _normalStrength: 1
+    - _pixelateNormals: 64
+    - _posterize: 4.76
+    - _radius: 21.67
+    - _relief: 1.88
+    - _rim: 0.6
+    - _s2: 1
     - _step: 0
     - _test: 83.84
+    - _y: 118.64
     m_Colors:
     - _Bright: {r: 0.851, g: 0.73129624, b: 0.542087, a: 1}
+    - _Color: {r: 12.844468, g: 10.315849, b: 6.730501, a: 0}
     - _Dark: {r: 0.266, g: 0.18728572, b: 0.09771429, a: 1}
     - _Fire: {r: 0.472, g: 0.38711867, b: 0.3186, a: 1}
+    - _LightDirection: {r: -16.3125, g: 161.9375, b: -10.8125, a: 0}
+    - _LightDirection2d: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPos: {r: -16.2029, g: 12.7798, b: 0, a: 0}
+    - _light2: {r: 301.8, g: 0, b: 0, a: 0}
     - _offset: {r: 0.0025, g: -0.0168, b: 0, a: 0}
     - _position: {r: -0.5, g: -0.23, b: 0, a: 0}
+    - _rotate: {r: 0, g: 0, b: 0, a: 0}
     - _tiling: {r: 0.995, g: 1.0145, b: 0, a: 0}
     - _tiling_2: {r: 0.2, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []

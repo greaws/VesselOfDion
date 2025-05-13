@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -47,21 +48,38 @@ public class Forscher : Player
     private AudioSource audiosource;
     public AudioClip jump;
 
+    public bool jumopButtonPressed = false;
+
+
+    public float fallMultiplier = 35f;
+    public float lowJumpMultiplier = 8f;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        //controls = new Controls();
-        //controls.Enable(); // Enable the controls
-        //print(controls);
-        //animator = GetComponent<Animator>();
-        //controls.CharacterControls.Jump.started += context => {
+        controls = new Controls();
+        controls.Enable(); // enable the controls
+        print(controls);
+        animator = GetComponent<Animator>();
 
-        //};
-        //controls.CharacterControls.Move.started += OnMove;
-        //controls.CharacterControls.Move.performed += OnMove;
-        //controls.CharacterControls.Move.canceled += context => {
-        //    rb.velocity = Vector2.zero;
-        //};
+        controls.CharacterControls.Jump.started += context =>
+        {
+            jumopButtonPressed = true;
+            if (coll.onGround)
+            {
+                Jump();
+            }
+        };
+
+        controls.CharacterControls.Jump.canceled += context =>
+        {
+            jumopButtonPressed = false;
+        };
+        controls.CharacterControls.Move.started += onMove;
+        controls.CharacterControls.Move.performed += onMove;
+        controls.CharacterControls.Move.canceled += onMove;
+
 
         audiosource = GetComponent<AudioSource>();
 
@@ -72,33 +90,41 @@ public class Forscher : Player
         animator = GetComponent<Animator>();
     }
 
+    private void onMove(InputAction.CallbackContext context)
+    {
+        x = context.ReadValue<Vector2>().x;
+    }
+
+    private float x;
+
+    private void Move()
+    {
+        Walk(x);
+        anim.SetHorizontalMovement(x);
+        if (x > 0)
+        {
+            side = 1;
+            anim.Flip(side);
+        }
+        if (x < 0)
+        {
+            side = -1;
+            anim.Flip(side);
+        }
+    }
+
     private void OnValidate()
     {
-        SetHasTorch(hasTorch);
+        torch.SetActive(hasTorch);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-        Vector2 dir = new Vector2(x, y);
+        //float x = Input.GetAxis("Horizontal");
+        Move();
 
-        Walk(dir);
-        anim.SetHorizontalMovement(x, y, rb.linearVelocity.y);
-
-        if (coll.onGround)
-        {
-            GetComponent<BetterJumping>().enabled = true;
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            anim.SetTrigger("Jump");
-
-            if (coll.onGround)
-                Jump(Vector2.up);
-        }
+        GetComponent<BetterJumping>().enabled = coll.onGround;
 
         if (coll.onGround && !groundTouch)
         {
@@ -114,15 +140,13 @@ public class Forscher : Player
         if (!canMove)
             return;
 
-        if (x > 0)
+        if (rb.linearVelocity.y < 0)
         {
-            side = 1;
-            anim.Flip(side);
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
-        if (x < 0)
+        else if (rb.linearVelocity.y > 0 && !jumopButtonPressed)
         {
-            side = -1;
-            anim.Flip(side);
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
     }
 
@@ -132,26 +156,28 @@ public class Forscher : Player
         //jumpParticle.Play();
     }
 
-    private void Walk(Vector2 dir)
+    private void Walk(float x)
     {
         if (!canMove)
             return;
 
         if (coll.onWall && !coll.onGround) // Prevent sticking to walls
         {
-            if ((dir.x > 0 && coll.onRightWall) || (dir.x < 0 && coll.onLeftWall))
+            if ((x > 0 && coll.onRightWall) || (x < 0 && coll.onLeftWall))
             {
-                dir.x = 0; // Prevent moving into the wall
+                x = 0; // Prevent moving into the wall
+                print("wall");
             }
         }
 
-        rb.linearVelocity = new Vector2(dir.x * speed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(x * speed, rb.linearVelocity.y);
     }
 
-    private void Jump(Vector2 dir)
+    private void Jump()
     {
+        anim.SetTrigger("Jump");
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-        rb.linearVelocity += dir * jumpForce;
+        rb.linearVelocity += Vector2.up * jumpForce;
         audiosource.PlayOneShot(jump);
         //jumpParticle.Play();
     }
