@@ -97,21 +97,7 @@ public class Forscher : Player
 
     private float x;
 
-    private void Move()
-    {
-        Walk(x);
-        anim.SetHorizontalMovement(x);
-        if (x > 0)
-        {
-            side = 1;
-            anim.Flip(side);
-        }
-        if (x < 0)
-        {
-            side = -1;
-            anim.Flip(side);
-        }
-    }
+
 
     private void OnValidate()
     {
@@ -122,9 +108,7 @@ public class Forscher : Player
     void Update()
     {
         //float x = Input.GetAxis("Horizontal");
-        Move();
-
-        GetComponent<BetterJumping>().enabled = coll.onGround;
+        Walk(x);
 
         if (coll.onGround && !groundTouch)
         {
@@ -160,7 +144,17 @@ public class Forscher : Player
     {
         if (!canMove)
             return;
-
+        anim.SetHorizontalMovement(x);
+        if (x > 0)
+        {
+            side = 1;
+            anim.Flip(side);
+        }
+        if (x < 0)
+        {
+            side = -1;
+            anim.Flip(side);
+        }
         if (coll.onWall && !coll.onGround) // Prevent sticking to walls
         {
             if ((x > 0 && coll.onRightWall) || (x < 0 && coll.onLeftWall))

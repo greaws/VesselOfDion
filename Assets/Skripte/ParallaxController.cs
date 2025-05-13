@@ -43,8 +43,8 @@ public class ParallaxController : MonoBehaviour
         startPositions[0] = transform.position;
 
         // Second copy
-        return;
-        if (!loop) return;
+        //return;
+        //if (!loop) return;
         GameObject second = Instantiate(gameObject, transform.position + new Vector3(size.x, 0, 0), transform.rotation, transform.parent);
         Destroy(second.GetComponent<ParallaxController>());
         copies[1] = second.transform;
