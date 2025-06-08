@@ -97,7 +97,7 @@ public class Level1 : MonoBehaviour
         prometheus.visual.enabled = true;
         prometheus.enabled = true;
         //prometheus.gameObject.SetActive(true);
-        prometheus.transform.localPosition = new Vector3(-2, 5);
+        prometheus.transform.localPosition = new Vector3(-2, 6);
         zeus.Reset();
         audioSource.pitch = 1;
         audioSource.Play();
@@ -122,7 +122,6 @@ public class Level1 : MonoBehaviour
         zeus.dead = true;
         while (t1 < 1)
         {
-
             prometheus.light.intensity = Mathf.Lerp(prometheus.b, 0, t1);
             scrollSpeed = Mathf.Lerp(StartScrollSpeed, 0, t1);
             t1 += Time.deltaTime/0.5f;
@@ -143,7 +142,6 @@ public class Level1 : MonoBehaviour
         yield return new WaitForSeconds(2);
         textReveal.transform.position = textpos;
         //text.localPosition = textpos;
-        print("Level ertgh");
         scrollSpeed = StartScrollSpeed;
         Reset();
         float t2 = 0;

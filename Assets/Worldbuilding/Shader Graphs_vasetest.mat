@@ -173,6 +173,10 @@ Material:
         m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSize_36ff2d5cee854b6797e9121afd03b186_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSize_3db15f57d2224bfc98a0828b8ed16ec8_Texture_1_Texture2D:
         m_Texture: {fileID: 8400000, guid: 2f88cf4b1df466b4fa89c9fb1f64d241, type: 2}
         m_Scale: {x: 1, y: 1}
@@ -241,12 +245,12 @@ Material:
     - _Smoothnes: 350
     - _Strength: 0.2
     - _TexelSize: 258.68
-    - _ambient: 0.64
+    - _ambient: 2
     - _attenuation: 37.8
     - _brighten: 3.28
     - _brightness: -7.17
     - _chill: 11.48
-    - _distort: 1
+    - _distort: 0
     - _fresnelpower: 1
     - _gamma: 2
     - _gammmma: 2.2
@@ -257,23 +261,24 @@ Material:
     - _lightz: -11.64
     - _normalStrength: 1
     - _pixelateNormals: 68.3
-    - _posterize: 1
+    - _posterize: 0.64
+    - _posterizeTorch: -0.23
     - _radius: 70
     - _relief: 0.5
-    - _rim: 0.6
+    - _rim: 0.47
     - _s2: 21.7
     - _step: 0
     - _test: 189.16
     - _test_1: 0
-    - _texturestrength: 0
+    - _texturestrength: 0.072
     - _y: 118.64
     m_Colors:
     - _Bright: {r: 0.038, g: 0.038, b: 0.038, a: 1}
     - _Color: {r: 20.86591, g: 16.758156, b: 10.933737, a: 0}
     - _Dark: {r: 0.288, g: 0.1616832, b: 0.077471994, a: 1}
-    - _Fire: {r: 0.373, g: 0.24031228, b: 0.15185377, a: 1}
-    - _Fresnel: {r: 0.454221, g: 0, b: 9.620758, a: 1}
-    - _LightDirection: {r: -17.44324, g: 161.43526, b: 4.0470057, a: 0}
+    - _Fire: {r: 0.288, g: 0.18492632, b: 0.11823158, a: 1}
+    - _Fresnel: {r: 0, g: 0.9620772, b: 9.620758, a: 1}
+    - _LightDirection: {r: -16.0625, g: 162.3125, b: 3.25, a: 0}
     - _LightDirection2d: {r: 0, g: 0, b: 0, a: 0}
     - _LightPos: {r: -16.2029, g: 12.7798, b: 0, a: 0}
     - _Smoothnes: {r: 26.55, g: 250, b: 0, a: 0}

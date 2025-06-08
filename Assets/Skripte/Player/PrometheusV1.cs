@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
 public class JumpingPlayer : Player
@@ -21,6 +25,8 @@ public class JumpingPlayer : Player
 
     public Level1 Level1;
 
+    public Controls controls;
+
     private float verticalVelocity = 0f;
     private bool isGrounded;
     public Light2D light;
@@ -35,11 +41,28 @@ public class JumpingPlayer : Player
         fixedPosition = fixedPosition = transform.position;
         visual = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        controls = new Controls();
+        controls.Enable(); // enable the controls
+        print(controls);
+    }
+
+    private void onMove(InputAction.CallbackContext context)
+    {
+        print("jump");
+        if (isGrounded)
+        {            
+            verticalVelocity = CalculateJumpForce(jumpHeight, gravity); // Set exact jump speed
+        }
     }
 
     private void OnEnable()
     {
-        verticalVelocity = 0f;
+        controls.CharacterControls.Jump.started += onMove;
+    }
+
+    private void OnDisable()
+    {
+        controls.CharacterControls.Jump.started -= onMove;
     }
 
     private Vector2 fixedPosition;
@@ -58,11 +81,7 @@ public class JumpingPlayer : Player
             verticalVelocity = 0;
         }
 
-        // Handle Jump Input
-        if (Input.GetButton("Jump") && isGrounded)
-        {
-            verticalVelocity = CalculateJumpForce(jumpHeight, gravity); // Set exact jump speed
-        }
+
 
         // Apply gravity **only when not grounded**
         if (!isGrounded)
@@ -74,7 +93,7 @@ public class JumpingPlayer : Player
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalVelocity); // Apply velocity once
 
         // Debugging
-        Debug.Log($"Velocity: {rb.linearVelocity}");
+        // Debug.Log($"Velocity: {rb.linearVelocity}");
 
         // Check for side collisions
         if (IsHittingWall())
@@ -101,9 +120,6 @@ public class JumpingPlayer : Player
 
     bool IsGrounded()
     {
-        // Get the player's BoxCollider2D
-        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-
         // Define the box center slightly below the actual collider to detect ground
         Vector2 origin = (Vector2)transform.position + Vector2.up * 0.02f;
 
@@ -148,7 +164,7 @@ public class JumpingPlayer : Player
         DrawBoxCast(boxCenter, boxSize, Vector2.right, 0f, boxColor);
 
         // Prevent false positives when falling
-        if (hit.collider != null)
+        if (hit.collider != null && hit.collider != boxCollider)
         {
             Debug.DrawRay(hit.point, hit.normal, Color.blue, 0.5f);
             // Ignore if the surface is mostly facing upward (like a floor)
@@ -159,8 +175,8 @@ public class JumpingPlayer : Player
             print(rb.linearVelocity.y);
             //return false;
         }
-
-        return hit.collider != null;
+        //print("hit wall" + hit.collider);
+        return hit.collider != null && hit.collider != boxCollider;
     }
 
 
