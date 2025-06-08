@@ -97,6 +97,12 @@ public class Forscher : Player
 
     private float x;
 
+    private void OnEnable()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        rb.linearVelocity = Vector2.zero;
+    }
+
 
 
     private void OnValidate()

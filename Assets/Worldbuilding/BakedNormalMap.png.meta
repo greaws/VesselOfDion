@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: aa1f784d4277bc141b0cca56aec9dec3
+guid: c4d3c0e5c1aa70c4d8ee1dc2be812837
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1239978982054082084
-    second: vasenormal_0
+      213: -3987272587725697148
+    second: BakedNormalMap_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 1
+    sRGBTexture: 0
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -57,7 +57,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 1
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -65,7 +65,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
-  ignorePngGamma: 0
+  ignorePngGamma: 1
   applyGammaDecoding: 0
   swizzle: 50462976
   cookieLightType: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vasenormal_0
+      name: BakedNormalMap_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 171
-        height: 280
+        width: 220
+        height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 426b842805a453110800000000000000
-      internalID: 1239978982054082084
+      spriteID: 48f05f9f4bc5aa8c0800000000000000
+      internalID: -3987272587725697148
       vertices: []
       indices: 
       edges: []
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BakedNormalMap_0: -3987272587725697148
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
