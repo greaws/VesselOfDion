@@ -24,7 +24,7 @@ public class TriggerAnimation : MonoBehaviour
             //playableDirector.RebuildGraph();
 
             playableDirector.Play();
-            MusicManager.Instance.PlayDungeonMusic();
+            //MusicManager.Instance.PlayDungeonMusic();
             //impulseSource.GenerateImpulse();
             if (!isAbgespielt)
             {

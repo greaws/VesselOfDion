@@ -11,7 +11,7 @@ public class ParallaxController : MonoBehaviour
     private Vector2 size;
     private Transform cam;
     //[Tooltip("Layer moves `numerator` px for every `denominator` px the camera moves.")]
-    //public int numerator = 1, denominator = 5;
+    //public int numerator = 1, denominator = 5;c
 
     //public float parallaxEffect;// => (float)numerator / denominator;
     [Range(-1, 1)]
@@ -29,9 +29,7 @@ public class ParallaxController : MonoBehaviour
     {
         if (!cam)
         {
-            cam = Application.isPlaying
-                ? Camera.main.transform
-                : SceneView.lastActiveSceneView.camera.transform;
+            cam = Camera.main.transform;
         }
         initialCamPos = cam.position;
         size = GetComponent<SpriteRenderer>().bounds.size;

@@ -597,7 +597,26 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fall Impact_V2_0: 4582476830425498505
+      Fall Impact_V2_1: -7818615446811418545
+      Fall Impact_V2_10: -672511026962260309
+      Fall Impact_V2_11: 8859196583879790506
+      Fall Impact_V2_12: -6697046905322681766
+      Fall Impact_V2_13: 8582657166148465250
+      Fall Impact_V2_14: -2341178363968520572
+      Fall Impact_V2_15: -6231676035239661928
+      Fall Impact_V2_16: 6838750608017646230
+      Fall Impact_V2_17: -2741615395240038451
+      Fall Impact_V2_18: -5895812962317856527
+      Fall Impact_V2_2: 7853833616928654688
+      Fall Impact_V2_3: 9111220028110342846
+      Fall Impact_V2_4: -6654925244264479179
+      Fall Impact_V2_5: -6618556213370551205
+      Fall Impact_V2_6: -6624546327926998645
+      Fall Impact_V2_7: 3040641883114539752
+      Fall Impact_V2_8: 5213122562946157311
+      Fall Impact_V2_9: 6170122886055050150
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

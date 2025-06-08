@@ -69,7 +69,7 @@ Material:
     - _radius: 5.73
     m_Colors:
     - _LightColor: {r: 83.46362, g: 54.99264, b: 12.51954, a: 1}
-    - _LightDirection: {r: -7.3124995, g: 0.1424998, b: 0, a: 0}
+    - _LightDirection: {r: 2.5000005, g: 0.3299998, b: 0, a: 0}
     - _LightPos: {r: 1.66, g: 3.55, b: 0, a: 0}
     - _Light_color: {r: 72.65932, g: 46.925808, b: 10.898895, a: 1}
   m_BuildTextureStacks: []
