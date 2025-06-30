@@ -24,16 +24,20 @@ public class MusicManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private bool wasPlayingBeforePause = false; // Merkt sich, ob Musik lief
+
     public void Pause(bool pause)
     {
-        if (pause)
-        {
-            musicPlayer.Pause();
-        }
-        else
-        {
-            musicPlayer.UnPause();
-        }
+        //if (pause)
+        //{
+        //    wasPlayingBeforePause = musicPlayer.isPlaying;
+        //    musicPlayer.Pause();
+        //}
+        //else
+        //{
+        //    if (wasPlayingBeforePause)
+        //        musicPlayer.UnPause();
+        //}
     }
 
     void Start()
@@ -46,8 +50,6 @@ public class MusicManager : MonoBehaviour
     {
         musicPlayer.Pause();
         ambient.clip = ambientinside;
-        //musicPlayer.clip = dungeon;
-        //musicPlayer.Play();
         ambient.Play();
         reverbFilter.reverbPreset = AudioReverbPreset.SewerPipe;
     }

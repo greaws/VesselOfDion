@@ -492,6 +492,9 @@ MonoBehaviour:
   speed: 0.025
   audioSource: {fileID: 0}
   bg: {fileID: 364528137}
+  forscher: {fileID: 0}
+  continuePrompt: {fileID: 0}
+  face: []
 --- !u!82 &559019765
 AudioSource:
   m_ObjectHideFlags: 0
