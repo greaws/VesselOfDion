@@ -262,7 +262,7 @@ Material:
     - _normalStrength: 1
     - _pixelateNormals: 68.3
     - _posterize: 0.64
-    - _posterizeTorch: -0.23
+    - _posterizeTorch: 0.54
     - _radius: 70
     - _relief: 0.5
     - _rim: 0.47
@@ -278,7 +278,7 @@ Material:
     - _Dark: {r: 0.288, g: 0.1616832, b: 0.077471994, a: 1}
     - _Fire: {r: 0.288, g: 0.18492632, b: 0.11823158, a: 1}
     - _Fresnel: {r: 0, g: 0.9620772, b: 9.620758, a: 1}
-    - _LightDirection: {r: -16.0625, g: 162.3125, b: 3.25, a: 0}
+    - _LightDirection: {r: -16.23572, g: 161.13512, b: 2.7358613, a: 0}
     - _LightDirection2d: {r: 0, g: 0, b: 0, a: 0}
     - _LightPos: {r: -16.2029, g: 12.7798, b: 0, a: 0}
     - _Smoothnes: {r: 26.55, g: 250, b: 0, a: 0}

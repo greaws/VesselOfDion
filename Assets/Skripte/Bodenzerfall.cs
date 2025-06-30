@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Playables;
@@ -21,16 +21,11 @@ public class TriggerAnimation : MonoBehaviour
     {
         if (other.CompareTag("Player"))  // Check if the player enters
         {
-            //playableDirector.RebuildGraph();
-
             playableDirector.Play();
-            //MusicManager.Instance.PlayDungeonMusic();
-            //impulseSource.GenerateImpulse();
             if (!isAbgespielt)
             {
                 isAbgespielt = true;
             }
-          
         }
     }
 }

@@ -1,15 +1,15 @@
-using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Tilemaps;
 
 public class Level1 : MonoBehaviour
 {
-    public Tilemap Tilemap;
+    public Tilemap tilemap;
     public JumpingPlayer prometheus;
     public RectTransform fade;    
     public Zeus zeus;
@@ -21,7 +21,7 @@ public class Level1 : MonoBehaviour
 
     public TextReveal textReveal;
 
-    public float levelLength;
+    private float levelLength;
     //public Transform levelbar;
     public Forscher player;
     public PlayableDirector timeline;
@@ -49,42 +49,22 @@ public class Level1 : MonoBehaviour
     private void OnValidate()
     {
         CalculateScrollSpeed();
-        // Return the total level length as an integer
-        //levelLength = Mathf.CeilToInt(scrollSpeed * audioSource.clip.length);
-        //levelbar.localScale = new Vector3 (levelLength, 1, 1);
-    }
-
-    private IEnumerator Reverse()
-    {
-        float dt = (float)timeline.duration;
-        print("Level ihlihl: " + dt);
-        while (dt > 0)
-        {
-            dt -= Time.deltaTime;
-            timeline.time = Mathf.Max(dt, 0);
-            timeline.Evaluate();
-            yield return null;
-        }
-        print("Level ertgh");
-        timeline.time = 0;
-        timeline.Evaluate();
-        timeline.Stop();
+        levelLength = tilemap.cellBounds.size.x -15; // oder tilemap.localBounds.size.x für Weltkoordinaten
     }
 
     public bool done = false;
 
     void Update()
     {
-        if (Tilemap.transform.localPosition.x > -levelLength)
+        if (tilemap.transform.localPosition.x > -levelLength)
         {
-            Tilemap.transform.localPosition += new Vector3(Time.deltaTime * -scrollSpeed, 0);
+            tilemap.transform.localPosition += new Vector3(Time.deltaTime * -scrollSpeed, 0);
         }
         else if (!done)
         {
             done = true;
             //StartCoroutine(Reverse());
             timeline.Play();
-            PlayerSwitcher.Instance.SwitchPlayer(0);
             player.torch.SetActive(true);
             player.SetHasTorch(true);
         }
@@ -92,10 +72,9 @@ public class Level1 : MonoBehaviour
 
     public void Reset()
     {
-        Tilemap.transform.localPosition = Vector3.zero;
+        tilemap.transform.localPosition = Vector3.zero;
         prometheus.visual.enabled = true;
         prometheus.enabled = true;
-        //prometheus.gameObject.SetActive(true);
         prometheus.transform.localPosition = new Vector3(-2, 6);
         zeus.Reset();
         audioSource.pitch = 1;
@@ -180,7 +159,7 @@ public class Level1 : MonoBehaviour
         Matrix4x4 originalMatrix = Gizmos.matrix;
 
         // Set Gizmos matrix to be relative to this GameObject's transform
-        Gizmos.matrix = Tilemap.transform.localToWorldMatrix;
+        Gizmos.matrix = tilemap.transform.localToWorldMatrix;
 
         Gizmos.color = Color.blue;  // Set color for beats
 

@@ -14,7 +14,6 @@ public class Forscher : Player
 
     private Animator animator;
 
-    public bool isGrounded;
     public Controls controls;
     public float drag;
 

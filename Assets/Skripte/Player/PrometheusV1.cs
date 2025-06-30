@@ -27,10 +27,17 @@ public class JumpingPlayer : Player
     public Controls controls;
 
     private float verticalVelocity = 0f;
-    private bool isGrounded;
+    public bool isGrounded;
     public Light2D light;
 
     public SpriteRenderer visual;
+    public AudioClip jumpSound; // Assign this in the inspector with your jump sound
+
+    [Header("Coyote Time")]
+    [SerializeField] private float coyoteTime = 0.15f; // Dauer in Sekunden
+    private float coyoteTimer;
+
+    public AudioSource audioSource;
 
     void Start()
     {
@@ -43,25 +50,37 @@ public class JumpingPlayer : Player
         controls = new Controls();
         controls.Enable(); // enable the controls
         print(controls);
+
+        controls.CharacterControls.Jump.started += onJump;
+        controls.CharacterControls.Jump.canceled += onJump;
     }
 
-    private void onMove(InputAction.CallbackContext context)
-    {
-        print("jump");
-        if (isGrounded)
-        {            
-            verticalVelocity = CalculateJumpForce(jumpHeight, gravity); // Set exact jump speed
-        }
-    }
+    private bool jump = false; // Track jump state
 
     private void OnEnable()
     {
-        controls.CharacterControls.Jump.started += onMove;
+        controls.CharacterControls.Jump.started += onJump;
+        controls.CharacterControls.Jump.canceled += onJump;
     }
 
     private void OnDisable()
     {
-        controls.CharacterControls.Jump.started -= onMove;
+        controls.CharacterControls.Jump.started -= onJump;
+        controls.CharacterControls.Jump.canceled -= onJump;
+        jump = false;
+    }
+
+
+    private void onJump(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            jump = true; // Set jump to true when the button is pressed
+        }
+        else if (context.canceled)
+        {
+            jump = false; // Reset jump when the button is released
+        }
     }
 
     private Vector2 fixedPosition;
@@ -71,15 +90,31 @@ public class JumpingPlayer : Player
 
     private void FixedUpdate()
     {
-        // Check if the player is on the ground
+        bool wasGrounded = isGrounded;
         isGrounded = IsGrounded();
+
+        // Coyote Timer aktualisieren
+        if (isGrounded)
+        {
+            coyoteTimer = coyoteTime;
+        }
+        else
+        {
+            coyoteTimer -= Time.fixedDeltaTime;
+        }
+
+        if (jump && coyoteTimer > 0f)
+        {
+            verticalVelocity = CalculateJumpForce(jumpHeight, gravity); // Set exact jump speed
+            audioSource.PlayOneShot(jumpSound); // Play jump sound
+            coyoteTimer = 0f;
+        }
 
         // Reset vertical velocity when grounded (prevents infinite accumulation)
         if (isGrounded && verticalVelocity < 0)
         {
             verticalVelocity = 0;
         }
-
 
 
         // Apply gravity **only when not grounded**
@@ -91,8 +126,6 @@ public class JumpingPlayer : Player
 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalVelocity); // Apply velocity once
 
-        // Debugging
-        // Debug.Log($"Velocity: {rb.linearVelocity}");
 
         // Check for side collisions
         if (IsHittingWall())
@@ -218,6 +251,7 @@ public class JumpingPlayer : Player
     // Handles death
     public void Die()
     {
+        dead.transform.position = transform.position+Vector3.up;
         dead.Play();
         Level1.StartCoroutine(Level1.Death());
         //gameObject.SetActive(false);

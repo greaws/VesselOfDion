@@ -13,7 +13,7 @@ public class TextReveal : MonoBehaviour
     void Start()
     {
         textMeshPro = GetComponent<TMP_Text>();
-        textMeshPro.enabled = false;
+        textMeshPro.enabled = true;
     }
 
     private void OnEnable()

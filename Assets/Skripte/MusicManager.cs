@@ -7,6 +7,7 @@ public class MusicManager : MonoBehaviour
     private AudioSource musicPlayer;
     private AudioSource ambient;
     public AudioClip ambientinside;
+    public AudioReverbFilter reverbFilter;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public static MusicManager Instance { get; private set; }
@@ -23,6 +24,18 @@ public class MusicManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void Pause(bool pause)
+    {
+        if (pause)
+        {
+            musicPlayer.Pause();
+        }
+        else
+        {
+            musicPlayer.UnPause();
+        }
+    }
+
     void Start()
     {
         musicPlayer = GetComponents<AudioSource>()[0];
@@ -31,17 +44,12 @@ public class MusicManager : MonoBehaviour
 
     public void PlayDungeonMusic()
     {
+        musicPlayer.Pause();
         ambient.clip = ambientinside;
-        musicPlayer.clip = dungeon;
-        musicPlayer.Play();
+        //musicPlayer.clip = dungeon;
+        //musicPlayer.Play();
         ambient.Play();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        reverbFilter.reverbPreset = AudioReverbPreset.SewerPipe;
     }
 
     internal void StopMusic()

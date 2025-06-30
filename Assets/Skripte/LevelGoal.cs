@@ -31,7 +31,6 @@ public class LevelGoal : MonoBehaviour
 
     private IEnumerator Reverse()
     {
-        PlayerSwitcher.Instance.SwitchPlayer(0);
         player.torch.SetActive(true);
         player.SetHasTorch(true);
         print("Level rtzhjtuk");
