@@ -1,7 +1,9 @@
+using NUnit.Framework.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 
@@ -10,42 +12,47 @@ public class ParallaxController : MonoBehaviour
     public Vector2 autoscrol;
     private Vector2 size;
     private Transform cam;
-    //[Tooltip("Layer moves `numerator` px for every `denominator` px the camera moves.")]
-    //public int numerator = 1, denominator = 5;c
 
-    //public float parallaxEffect;// => (float)numerator / denominator;
     [Range(-1, 1)]
-
     public float parallaxEffect;
     public bool loop = false;
 
-    private Transform[] copies = new Transform[2];
+    private List<Transform> copies = new List<Transform>(); // Change from List<Transform>[] to List<Transform>
     private Vector2[] startPositions = new Vector2[2]; // original positions of the copies
     private Vector2 initialCamPos;
     private Vector2 initialLayerPos;
 
-
     void Start()
     {
-        if (!cam)
+        cam = Camera.main.transform;
+        initialCamPos = Camera.main.transform.position;
+
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        var tilemap = GetComponent<Tilemap>();
+
+        if (spriteRenderer != null)
         {
-            cam = Camera.main.transform;
+            size = spriteRenderer.bounds.size;
         }
-        initialCamPos = cam.position;
-        size = GetComponent<SpriteRenderer>().bounds.size;
-
-
+        else if (tilemap != null)
+        {
+            size = tilemap.localBounds.size;
+        }
+        else
+        {
+            Debug.LogWarning("Kein SpriteRenderer oder Tilemap gefunden!");
+            size = Vector2.one;
+        }
 
         // First copy
-        copies[0] = transform;
+        copies.Add(transform); // Fix: Now `copies` is a List<Transform>, so Add() works
         startPositions[0] = transform.position;
 
         // Second copy
-        //return;
-        //if (!loop) return;
+        if (!loop) return;
         GameObject second = Instantiate(gameObject, transform.position + new Vector3(size.x, 0, 0), transform.rotation, transform.parent);
         Destroy(second.GetComponent<ParallaxController>());
-        copies[1] = second.transform;
+        copies.Add(second.transform); // Fix: Add the second copy to the List<Transform>
         startPositions[1] = second.transform.position;
     }
 
@@ -56,7 +63,7 @@ public class ParallaxController : MonoBehaviour
         {
             if (parallaxEffect == 1)
             {
-                transform.localScale = Vector3.one*10;
+                transform.localScale = Vector3.one * 10;
             }
             else
             {
@@ -105,7 +112,7 @@ public class ParallaxController : MonoBehaviour
     {
         Vector2 camOffset = ((Vector2)cam.position - startPositions[0]) * parallaxEffect;
 
-        for (int i = 0; i < copies.Length; i++)
+        for (int i = 0; i < copies.Count; i++) // Fix: Use copies.Count instead of copies.Length
         {
             // Scroll the base position with autoscroll over time
             startPositions[i] += autoscrol * Time.deltaTime;
@@ -116,7 +123,7 @@ public class ParallaxController : MonoBehaviour
         }
 
         // Reposition copies if they go too far from the camera
-        foreach (int i in new int[] { 0, 1 })
+        for (int i = 0; i < copies.Count; i++) // Fix: Use copies.Count instead of hardcoding indices
         {
             float camX = cam.position.x;
             if (camX - copies[i].position.x > size.x)

@@ -116,7 +116,7 @@ public class Forscher : Player
 
         if (coll.onGround && !groundTouch)
         {
-            GroundTouch();
+            side = anim.sr.flipX ? -1 : 1;
             groundTouch = true;
         }
 
@@ -138,11 +138,6 @@ public class Forscher : Player
         }
     }
 
-    void GroundTouch()
-    {
-        side = anim.sr.flipX ? -1 : 1;
-        //jumpParticle.Play();
-    }
 
     private void Walk(float x)
     {

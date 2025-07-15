@@ -10,6 +10,9 @@ public class Rumble : MonoBehaviour
 
     void Update()
     {
-        Gamepad.current.SetMotorSpeeds(lowFrequemcy, highFrequency);
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(lowFrequemcy, highFrequency);
+        }        
     }
 }
