@@ -38568,8 +38568,12 @@ MonoBehaviour:
   collisionRadius: 0.02
   dead: {fileID: 9147219441795191594}
   Level1: {fileID: 1642624917364057582}
+  isGrounded: 0
   light: {fileID: 323950083948877995}
   visual: {fileID: 0}
+  jumpSound: {fileID: 0}
+  coyoteTime: 0.15
+  audioSource: {fileID: 0}
   maxFallSpeed: -2000
   a: 3
   b: 5
@@ -43618,7 +43622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69b1e8f7f2c128488faf00e51233cf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tilemap: {fileID: 7314945029538381767}
+  tilemap: {fileID: 0}
   prometheus: {fileID: 3718528961638052990}
   fade: {fileID: 1951331542087370671}
   zeus: {fileID: 8502579282313752142}
@@ -43628,7 +43632,6 @@ MonoBehaviour:
   audioSource: {fileID: 5778100960808332958}
   deathSoundSource: {fileID: 3027485984554748710}
   textReveal: {fileID: 3073188173228860997}
-  levelLength: 600
   player: {fileID: 0}
   timeline: {fileID: 0}
   done: 0
@@ -43745,47 +43748,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_ImpulseShape: 2
-    m_CustomImpulseShape:
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ImpulseDuration: 0.3
-    m_ImpulseType: 0
-    m_DissipationRate: 0.25
-    m_RawSignal: {fileID: 0}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
+    ImpulseDuration: 0.3
+    ImpulseType: 0
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      m_DecayShape:
+      DecayShape:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 100
-    m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: -0.3, y: 0, z: 0}
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: -0.3, y: 0, z: 0}
 --- !u!1 &8756136432038094070
 GameObject:
   m_ObjectHideFlags: 0
@@ -43942,9 +43945,11 @@ MonoBehaviour:
   shakeIntensity: 1
   shakeInterval: 0.33
   gameOverMessage:
-  - Du dachtest wirklich, mir kannst du entkommen?
-  - "Du bist doch bloss ein Titan, der sich nicht an Regeln h\xE4lt!"
-  - ' Die Menschen werden nie das Feuer bekommen!'
+  - Thou didst truly think thou couldst escape me?
+  - 'Thou art naught but a Titan who heedeth not the laws! '
+  - "Ne\u2019er shall mankind lay claim to the flame! "
+  - 'Thou demi-god! Thou shalt receive thy due reward. '
+  - 'Take that, thou treacherous knave!  '
 --- !u!1818360608 &3533776063372967688
 PositionConstraint:
   m_ObjectHideFlags: 0
