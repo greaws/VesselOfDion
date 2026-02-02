@@ -138,6 +138,17 @@ public class Forscher : Player
         }
     }
 
+    public void StartCutscene()
+    {
+        rb.simulated = false;
+    }
+
+    public void StopCutScene() {
+        rb.simulated = true;
+        rb.position = transform.position;
+        rb.linearVelocity = Vector2.zero;
+    }
+
 
     private void Walk(float x)
     {

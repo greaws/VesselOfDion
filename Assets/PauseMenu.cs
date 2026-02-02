@@ -1,4 +1,5 @@
 
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -28,8 +29,22 @@ public class PauseMenu : MonoBehaviour
         isPaused = !isPaused;
         audioSource.PlayOneShot(isPaused ? pauseSound : resumeSound);
         Time.timeScale = isPaused ? 0 : 1;
-        pauseMenuUI.SetActive(isPaused);
-        MusicManager.Instance.Pause(isPaused);
+        
+        if (isPaused)
+        {
+            pauseMenuUI.SetActive(true);
+            pauseMenuUI.transform.DOScale(Vector3.one, 0.2f)
+                .SetEase(Ease.OutBack)
+                .SetUpdate(true);
+        }
+        else
+        {
+            // Animation zum Ausblenden, danach deaktivieren
+            pauseMenuUI.transform.DOScale(Vector3.one * 1.5f, 0.2f)
+                .SetEase(Ease.InBack)
+                .SetUpdate(true)
+                .OnComplete(() => pauseMenuUI.SetActive(false));
+        }
     }
     private Coroutine crtCoroutine;
 
@@ -43,6 +58,7 @@ public class PauseMenu : MonoBehaviour
             StopCoroutine(crtCoroutine);
 
         crtCoroutine = StartCoroutine(LerpCRTIntensity(target, duration));
+        //crtShader.DOFloat(enable ? 1f : 0f, "_intensity", 0.2f);
     }
 
     private IEnumerator LerpCRTIntensity(float target, float duration)

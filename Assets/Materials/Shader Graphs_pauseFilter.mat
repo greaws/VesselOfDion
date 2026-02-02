@@ -37,26 +37,36 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 2
+    - _Brightness: 3.6
+    - _aax: 0.32
+    - _antiAliasing: 0.152
+    - _blurEdge: 0.033
     - _chromaticAbberation: 8.25
     - _distortion: 2
-    - _gamma: 0.09
+    - _gamma: 0.33
+    - _gamma2: 0.5
+    - _gamma3: 1.22
     - _grain: 500
-    - _intensity: 0
-    - _lighten: 0.565
+    - _intensity: 1
+    - _lighten: 0
     - _lineThicknes: 0.453
     - _lineThicknes_1: 1
+    - _offset: 0
     - _power: 8
     - _scanlines: -3.4
     - _smoothnes: 14.98
+    - _step: 0.5
     - _test: 5.76
-    - _width: 0.349
+    - _test01: 0.408
+    - _vignette: 0
+    - _width: 1.03
     m_Colors:
-    - _Vector2: {r: 10, g: 10, b: 0, a: 0}
+    - _Vector2: {r: 12.4, g: 13.46, b: 0, a: 0}
     - _Vector2_1: {r: -3, g: 1.6, b: 0, a: 0}
-    - _lineMinMax: {r: -3, g: 1.5, b: 0, a: 0}
+    - _lineMinMax: {r: -1, g: 8.11, b: 0, a: 0}
     - _lineminmax: {r: -2, g: 0.5, b: 0, a: 0}
     - _resolution: {r: 480, g: 270, b: 0, a: 0}
+    - _rgb_offset: {r: -0.16666667, g: -0.5, b: -0.8333334, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1833330837085007799

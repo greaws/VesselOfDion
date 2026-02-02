@@ -128,7 +128,7 @@ public class JumpingPlayer : Player
 
 
         // Check for side collisions
-        if (IsHittingWall())
+        if (transform.localPosition.y < 1 || IsHittingWall())
         {
             print("aua");
             Die();

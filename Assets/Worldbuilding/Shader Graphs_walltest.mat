@@ -37,11 +37,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _SampleTexture2D_56ec20aa949f4959a288aab2bc27442e_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 7e2468bdd8f61d74bbf7211127675e59, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_5ede2f7d5deb483693366fdfcf146eb6_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: a1eec5d8eb9ee0b428af300e23c56879, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
