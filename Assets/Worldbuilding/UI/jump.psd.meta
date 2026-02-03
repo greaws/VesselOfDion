@@ -202,11 +202,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 108
-        y: 80
-        width: 173
-        height: 30
+        y: 79
+        width: 174
+        height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -228,7 +228,7 @@ TextureImporter:
         width: 172
         height: 35
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -237,6 +237,28 @@ TextureImporter:
       bones: []
       spriteID: 6757a4393d772c34b936509e3ca428de
       internalID: -180258839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "schie\xDFen"
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 48
+        width: 83
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 066bff27cd3f1f54fb4478ba8055df68
+      internalID: -349839713
       vertices: []
       indices: 
       edges: []
@@ -270,6 +292,7 @@ TextureImporter:
       jump_7: 72440576
       jump_8: 2030496777
       move: -319777545
+      "schie\xDFen": -349839713
       space: -1136317532
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

@@ -1,7 +1,6 @@
 using Unity.Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class ChainedProm : MonoBehaviour
 {
@@ -10,7 +9,12 @@ public class ChainedProm : MonoBehaviour
     private CinemachineImpulseSource impulseSource;
 
     public GameObject vase3;
-    // Start is called before the first frame update
+
+    [Header("Delayed Activation")]
+    [SerializeField] private GameObject objectToActivate;
+    [SerializeField] private GameObject objectToDeactivate;
+    [SerializeField] private float activationDelay = 2f; // seconds
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -23,9 +27,27 @@ public class ChainedProm : MonoBehaviour
         life--;
         impulseSource.GenerateImpulse();
 
-        if(life < 0)
+        if (life < 0)
         {
             vase3.SetActive(false);
         }
+    }
+
+    // CALLED BY EAGLE
+    public void TriggerDone()
+    {
+        animator.SetTrigger("done");
+
+        if (objectToActivate != null)
+        {
+            StartCoroutine(ActivateAfterDelay());
+        }
+    }
+
+    private IEnumerator ActivateAfterDelay()
+    {
+        yield return new WaitForSeconds(activationDelay);
+        objectToActivate.SetActive(true);
+        objectToDeactivate.SetActive(false);
     }
 }

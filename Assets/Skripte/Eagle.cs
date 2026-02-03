@@ -15,6 +15,9 @@ public class Eagle : MonoBehaviour
     [Header("Sprite Stages")]
     [SerializeField] private Sprite[] spriteStages;
 
+    [Header("References")]
+    public ChainedProm chainedProm; //  assign in Inspector
+
     private Vector3 startpos;
     public bool dead;
 
@@ -23,11 +26,9 @@ public class Eagle : MonoBehaviour
     public SpriteRenderer bow;
     private SpriteRenderer spriteRenderer;
     private ParticleSystem particleSystem;
-    private ParticleSystem.EmissionModule emission;
 
     public float verticalVelocity = 0f;
 
-    // Sprite progression tracking
     private int currentSpriteIndex = 0;
     private float emittedParticleAccumulator = 0f;
 
@@ -37,14 +38,12 @@ public class Eagle : MonoBehaviour
 
         animator = GetComponent<Animator>();
         animator.enabled = false;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         particleSystem = GetComponentInChildren<ParticleSystem>();
 
-        // Set starting sprite
         if (spriteStages.Length > 0 && spriteRenderer != null)
-        {
             spriteRenderer.sprite = spriteStages[0];
-        }
     }
 
     void Update()
@@ -73,7 +72,6 @@ public class Eagle : MonoBehaviour
         if (spriteStages.Length == 0 || spriteRenderer == null)
             return;
 
-        // Accumulate emitted particles deterministically
         emittedParticleAccumulator += particlesPerSecond * Time.deltaTime;
 
         while (emittedParticleAccumulator >= 1f)
@@ -86,12 +84,21 @@ public class Eagle : MonoBehaviour
     void AdvanceSprite()
     {
         if (currentSpriteIndex >= spriteStages.Length - 1)
-        { //tot
-            animator.enabled =true;
+        {
+            animator.enabled = true;
             animatorfloss.enabled = true;
             bow.enabled = false;
+
             dead = true;
-            return; }
+
+            //  TRIGGER DONE ON SECOND GO
+            if (chainedProm != null)
+            {
+                chainedProm.TriggerDone();
+            }
+
+            return;
+        }
 
         currentSpriteIndex++;
         spriteRenderer.sprite = spriteStages[currentSpriteIndex];

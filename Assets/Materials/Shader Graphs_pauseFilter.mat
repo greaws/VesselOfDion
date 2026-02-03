@@ -47,7 +47,7 @@ Material:
     - _gamma2: 0.5
     - _gamma3: 1.22
     - _grain: 500
-    - _intensity: 1
+    - _intensity: 0
     - _lighten: 0
     - _lineThicknes: 0.453
     - _lineThicknes_1: 1

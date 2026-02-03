@@ -294,6 +294,30 @@ MonoBehaviour:
   VirtualCamera:
     exposedName: 88524b670c54eb645b3574446ca8f857
     defaultValue: {fileID: 0}
+--- !u!114 &-2578121298131008483
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46e36075dd1c124a8422c228e75e1fb, type: 3}
+  m_Name: Signal Track (1)
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects:
+    - {fileID: 3783767323514282742}
 --- !u!114 &-1765110569507826875
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -538,6 +562,7 @@ MonoBehaviour:
   - {fileID: 8668462072689286043}
   - {fileID: 7877488424848610281}
   - {fileID: -8840130683811805032}
+  - {fileID: -2578121298131008483}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
@@ -657,6 +682,22 @@ MonoBehaviour:
   VirtualCamera:
     exposedName: 62f90b10d373cef49b2eb931a42c086b
     defaultValue: {fileID: 0}
+--- !u!114 &3783767323514282742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 3.6833333333333296
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: 046fc02a7ad18834d8dfd9603a736c58, type: 2}
 --- !u!114 &3868444039695065995
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1354,6 +1395,7 @@ MonoBehaviour:
     m_DisplayName: vasecam
   m_Markers:
     m_Objects: []
+  TrackPriority: 0
 --- !u!114 &7871666891790362901
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1481,25 +1523,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1608,6 +1632,7 @@ MonoBehaviour:
     m_DisplayName: vaselevel
   m_Markers:
     m_Objects: []
+  TrackPriority: 0
 --- !u!114 &7995820319559069708
 MonoBehaviour:
   m_ObjectHideFlags: 1
